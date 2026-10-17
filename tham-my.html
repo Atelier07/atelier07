@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thẩm mỹ — Một Trang</title>
+
+<!-- Fonts: Fontshare (distinctive, non-generic) -->
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=satoshi@400,500,700&f[]=general-sans@400&display=swap">
+
+<style>
+/* ===========================================
+   THEME — đổi các biến này để đổi toàn bộ tông màu
+   =========================================== */
+:root {
+    --stage-bg: #0c0b09;
+    --slide-bg: #100e0b;
+
+    --ink:          #f4efe6;
+    --ink-soft:     #b8ae9c;
+    --ink-faint:    #6f6656;
+    --accent:       #e0b25a;   /* đồng cổ / amber */
+    --accent-2:     #b6543a;   /* đất nung */
+    --line:         rgba(224, 178, 90, 0.28);
+
+    --font-display: 'Clash Display', sans-serif;
+    --font-body:    'Satoshi', sans-serif;
+    --font-mono:    'General Sans', sans-serif;
+
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ===========================================
+   viewport-base.css — BẮT BUỘC (stage 16:9 cố định)
+   =========================================== */
+html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: var(--stage-bg); }
+.deck-viewport { position: fixed; inset: 0; overflow: hidden; background: var(--stage-bg); }
+.deck-stage {
+    position: absolute; left: 0; top: 0;
+    width: 1920px; height: 1080px;
+    overflow: hidden; transform-origin: 0 0;
+    background: var(--slide-bg);
+}
+.slide {
+    position: absolute; inset: 0;
+    width: 1920px; height: 1080px;
+    overflow: hidden; display: block;
+    visibility: hidden; opacity: 0; pointer-events: none;
+    background: var(--slide-bg);
+}
+.slide.active, .slide.visible { visibility: visible; opacity: 1; pointer-events: auto; z-index: 1; }
+img, video, canvas, svg { max-width: 100%; max-height: 100%; }
+@media print {
+    html, body { width: 1920px; height: auto; overflow: visible; background: #fff; }
+    .deck-viewport { position: static; overflow: visible; background: #fff; }
+    .deck-stage { position: static; width: auto; height: auto; transform: none !important; background: none; }
+    .slide { position: relative; display: block !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; width: 1920px; height: 1080px; break-after: page; page-break-after: always; }
+    .slide:last-child { break-after: auto; page-break-after: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; }
+}
+
+/* ===========================================
+   SLIDE — bố cục editorial 2 cột
+   =========================================== */
+.slide-editorial {
+    display: grid;
+    grid-template-columns: 1080px 1fr;
+    height: 1080px;
+    position: relative;
+}
+
+/* Nền chất liệu: chồng gradient + lưới mảnh */
+.slide-editorial::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(1200px 700px at 78% 8%, rgba(224,178,90,0.10), transparent 60%),
+        radial-gradient(900px 600px at 4% 100%, rgba(182,84,58,0.10), transparent 55%),
+        linear-gradient(180deg, #100e0b 0%, #0b0a08 100%);
+    z-index: 0;
+}
+.slide-editorial::after {
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 240px 240px;
+    opacity: 0.10;
+    mask-image: radial-gradient(120% 100% at 30% 40%, #000 30%, transparent 78%);
+    z-index: 0;
+}
+
+/* --- Cột trái: nội dung --- */
+.col-text {
+    position: relative; z-index: 2;
+    padding: 96px 88px 96px 120px;
+    display: flex; flex-direction: column;
+}
+.kicker {
+    display: flex; align-items: center; gap: 16px;
+    font-family: var(--font-body);
+    font-size: 20px; letter-spacing: 0.34em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 40px;
+}
+.kicker::before { content: ""; width: 64px; height: 1px; background: var(--accent); display: block; }
+
+.title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 168px;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+}
+.title .thin {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--accent);
+}
+.title .accent { color: var(--accent-2); }
+
+.lede {
+    font-family: var(--font-body);
+    font-size: 30px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 760px;
+    margin-top: 44px;
+}
+.lede strong { color: var(--ink); font-weight: 700; }
+
+.rule { height: 1px; background: var(--line); margin: 56px 0 44px; }
+
+/* Ba trụ cột thẩm mỹ */
+.pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+.pillar .num {
+    font-family: var(--font-mono);
+    font-size: 22px; color: var(--accent);
+    letter-spacing: 0.2em; margin-bottom: 14px; display: block;
+}
+.pillar h3 {
+    font-family: var(--font-display);
+    font-size: 40px; font-weight: 600; color: var(--ink);
+    line-height: 1.05; margin-bottom: 12px;
+}
+.pillar p { font-family: var(--font-body); font-size: 22px; line-height: 1.45; color: var(--ink-faint); }
+
+/* --- Cột phải: panel biểu tượng --- */
+.col-visual {
+    position: relative; z-index: 2;
+    border-left: 1px solid var(--line);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 96px 80px;
+    overflow: hidden;
+}
+.quote-mark {
+    font-family: var(--font-display);
+    font-size: 360px; line-height: 0.6;
+    color: rgba(224,178,90,0.14);
+    position: absolute; top: 60px; right: 60px;
+    pointer-events: none;
+}
+.epigraph {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 52px; line-height: 1.18;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    max-width: 620px;
+    position: relative; z-index: 2;
+}
+.epigraph em { color: var(--accent); font-style: normal; }
+.attr {
+    margin-top: 34px;
+    font-family: var(--font-body);
+    font-size: 24px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-faint);
+    align-self: flex-start;
+    position: relative; z-index: 2;
+}
+.attr::before { content: "— "; color: var(--accent); }
+
+/* Nhãn dọc hai bên panel */
+.side-label {
+    position: absolute;
+    writing-mode: vertical-rl;
+    font-family: var(--font-body);
+    font-size: 18px; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--ink-faint);
+}
+.side-label.left  { left: 34px;  top: 50%; transform: translateY(-50%) rotate(180deg); }
+.side-label.right { right: 34px; top: 50%; transform: translateY(-50%); }
+
+/* Chấm đồng ở đáy panel */
+.seal {
+    position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
+    width: 120px; height: 120px; border-radius: 50%;
+    border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 18px; letter-spacing: 0.2em;
+    color: var(--accent);
+}
+.seal::after {
+    content: ""; position: absolute; inset: 10px;
+    border-radius: 50%; border: 1px dashed rgba(224,178,90,0.25);
+}
+
+/* ===========================================
+   ANIMATION — reveal khi slide .visible
+   =========================================== */
+.reveal { opacity: 0; transform: translateY(34px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+.slide.visible .reveal { opacity: 1; transform: translateY(0); }
+.slide.visible .r1 { transition-delay: 0.15s; }
+.slide.visible .r2 { transition-delay: 0.30s; }
+.slide.visible .r3 { transition-delay: 0.45s; }
+.slide.visible .r4 { transition-delay: 0.60s; }
+.slide.visible .r5 { transition-delay: 0.75s; }
+
+@keyframes drift { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+.slide.visible .seal { animation: drift 6s ease-in-out infinite; }
+
+/* Chrome ngoài stage */
+.deck-controls {
+    position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%);
+    z-index: 1000;
+    font-family: var(--font-body); font-size: 13px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--ink-faint);
+}
+</style>
+</head>
+<body>
+<div class="deck-viewport">
+    <main class="deck-stage" id="deckStage">
+
+        <!-- ===== SLIDE DUY NHẤT: THẨM MỸ ===== -->
+        <section class="slide slide-editorial active visible">
+            <div class="col-text">
+                <div class="kicker reveal r1">Một góc nhìn về cái đẹp</div>
+
+                <h1 class="title reveal r2">
+                    Thẩm<br>
+                    <span class="thin">mỹ</span><span class="accent">.</span>
+                </h1>
+
+                <p class="lede reveal r3">
+                    Thẩm mỹ không phải món trang trí gắn lên sau cùng — nó là
+                    <strong>trật tự thị giác</strong> khiến một thứ được cảm nhận
+                    là đúng, trước cả khi ta kịp giải thích vì sao.
+                </p>
+
+                <div class="rule reveal r3"></div>
+
+                <div class="pillars">
+                    <div class="pillar reveal r4">
+                        <span class="num">01</span>
+                        <h3>Nhận thức</h3>
+                        <p>Cảm nhận cái đẹp là một khả năng được luyện, không phải bẩm sinh.</p>
+                    </div>
+                    <div class="pillar reveal r4">
+                        <span class="num">02</span>
+                        <h3>Cân bằng</h3>
+                        <p>Tỷ lệ, khoảng trống và tương phản tạo nên sự hài hòa.</p>
+                    </div>
+                    <div class="pillar reveal r5">
+                        <span class="num">03</span>
+                        <h3>Ý nghĩa</h3>
+                        <p>Đẹp khi hình thức nói đúng điều nội dung muốn nói.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-visual">
+                <span class="side-label left">Aesthetic</span>
+                <span class="side-label right">Thẩm mỹ học</span>
+                <div class="quote-mark">”</div>
+
+                <blockquote class="epigraph reveal r2">
+                    Cái đẹp là <em>lời hứa của hạnh phúc</em>.
+                </blockquote>
+                <div class="attr reveal r4">Stendhal</div>
+
+                <div class="seal reveal r5">A·M</div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<div class="deck-controls">Thẩm mỹ · 01 / 01</div>
+
+<script>
+/* ===========================================
+   STAGE SCALER — giữ slide 16:9 trên mọi màn hình
+   =========================================== */
+class SlidePresentation {
+    constructor() {
+        this.slides = document.querySelectorAll('.slide');
+        this.stage = document.getElementById('deckStage');
+        this.current = 0;
+        this.fitStage();
+        window.addEventListener('resize', () => this.fitStage());
+    }
+    fitStage() {
+        const f = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+        const x = (window.innerWidth  - 1920 * f) / 2;
+        const y = (window.innerHeight - 1080 * f) / 2;
+        this.stage.style.transform = `translate(${x}px, ${y}px) scale(${f})`;
+    }
+}
+new SlidePresentation();
+</script>
+</body>
+</html>

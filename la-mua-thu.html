@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vì sao lá đổi màu mùa thu? — Màu Nước</title>
+
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=fraunces@300,400,500,600,700&f[]=work-sans@300,400,500,600&display=swap">
+
+<style>
+/* ===========================================
+   THEME — bảng màu nước mùa thu
+   =========================================== */
+:root {
+    --paper:      #f6f0e3;
+    --paper-edge: #ece2cf;
+    --stage-bg:   #cfc3ab;
+
+    --ink:        #33302a;
+    --ink-soft:   #5f5a4d;
+    --ink-faint:  #9a9282;
+
+    --wash-green:  #7fa878;   /* diệp lục tố */
+    --wash-yellow: #e0b64e;   /* carotenoid vàng */
+    --wash-orange: #d9863f;   /* carotenoid cam */
+    --wash-red:    #c15a52;   /* anthocyanin đỏ */
+    --wash-plum:   #8f5f78;   /* anthocyanin tím */
+    --wash-brown:  #9c7b52;   /* tannin nâu */
+    --wash-sky:    #7d93bd;   /* tín hiệu thời tiết */
+
+    --font-display: 'Fraunces', serif;
+    --font-body:    'Work Sans', sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ===========================================
+   viewport-base.css — BẮT BUỘC (stage 16:9 cố định)
+   =========================================== */
+html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: var(--stage-bg); }
+.deck-viewport { position: fixed; inset: 0; overflow: hidden; background: var(--stage-bg); }
+.deck-stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; transform-origin: 0 0; background: var(--paper); }
+.slide { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: hidden; display: block; visibility: hidden; opacity: 0; pointer-events: none; background: var(--paper); }
+.slide.active, .slide.visible { visibility: visible; opacity: 1; pointer-events: auto; z-index: 1; }
+img, video, canvas, svg { max-width: 100%; max-height: 100%; }
+@media print {
+    html, body { width: 1920px; height: auto; overflow: visible; background: #fff; }
+    .deck-viewport { position: static; overflow: visible; background: #fff; }
+    .deck-stage { position: static; width: auto; height: auto; transform: none !important; background: none; }
+    .slide { position: relative; display: block !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; width: 1920px; height: 1080px; break-after: page; page-break-after: always; }
+    .slide:last-child { break-after: auto; page-break-after: auto; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; } }
+
+/* Nền giấy dùng chung */
+.slide .paper { position: absolute; inset: 0; z-index: 0; background: radial-gradient(120% 100% at 25% 0%, #faf5ea 0%, var(--paper) 45%, var(--paper-edge) 100%); }
+.slide .grain { position: absolute; inset: 0; z-index: 6; opacity: 0.5; mix-blend-mode: multiply; pointer-events: none; }
+.slide .vignette { position: absolute; inset: 0; z-index: 5; pointer-events: none; box-shadow: inset 0 0 180px rgba(90,74,48,0.16); }
+.washes { position: absolute; inset: 0; z-index: 1; }
+
+/* ===========================================
+   SLIDE 1 — BÌA
+   =========================================== */
+.s1-content { position: relative; z-index: 4; height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 0 200px; }
+.s1-eyebrow { font-family: var(--font-body); font-size: 22px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--wash-brown); margin-bottom: 30px; }
+.s1-title { font-family: var(--font-display); font-weight: 300; font-size: 176px; line-height: 0.94; letter-spacing: -0.02em; color: var(--ink); }
+.s1-title .it { font-style: italic; font-weight: 500; }
+.s1-title .g { color: var(--wash-green); }
+.s1-title .r { color: var(--wash-red); }
+.s1-sub { font-family: var(--font-body); font-size: 30px; line-height: 1.5; font-weight: 300; color: var(--ink-soft); max-width: 900px; margin-top: 44px; }
+.s1-sign { position: absolute; right: 160px; bottom: 110px; z-index: 4; font-family: var(--font-display); font-style: italic; font-size: 32px; color: var(--ink-faint); }
+
+/* ===========================================
+   SLIDE 2 — SƠ ĐỒ LOGIC (chuỗi loang)
+   =========================================== */
+.s2-content { position: relative; z-index: 4; height: 100%; padding: 92px 140px; display: flex; flex-direction: column; }
+.s2-head { display: flex; align-items: baseline; gap: 28px; margin-bottom: 10px; }
+.s2-kicker { font-family: var(--font-body); font-size: 19px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--wash-brown); }
+.s2-rule { flex: 1; height: 1px; background: rgba(51,48,42,0.2); }
+.s2-title { font-family: var(--font-display); font-weight: 400; font-size: 74px; line-height: 1; color: var(--ink); margin-bottom: 54px; }
+.s2-title .it { font-style: italic; color: var(--wash-orange); }
+
+.flow { flex: 1; display: flex; align-items: stretch; gap: 0; }
+.step {
+    position: relative; flex: 1; display: flex; flex-direction: column; align-items: center;
+    text-align: center; padding: 0 14px;
+}
+.step .blob {
+    width: 150px; height: 150px; flex: 0 0 auto;
+}
+.step .blob svg { width: 100%; height: 100%; }
+.step .num { font-family: var(--font-body); font-size: 16px; letter-spacing: 0.3em; color: var(--ink-faint); margin: 18px 0 8px; }
+.step h3 { font-family: var(--font-display); font-weight: 500; font-size: 30px; color: var(--ink); line-height: 1.1; margin-bottom: 10px; min-height: 66px; display: flex; align-items: center; }
+.step p { font-family: var(--font-body); font-weight: 300; font-size: 19px; line-height: 1.4; color: var(--ink-soft); max-width: 240px; }
+.arrow { align-self: center; flex: 0 0 auto; width: 46px; color: var(--ink-faint); opacity: 0.6; margin-top: -60px; }
+.arrow svg { width: 100%; }
+
+/* ===========================================
+   SLIDE 3 — BA SẮC TỐ (3 swatch)
+   =========================================== */
+.s3-content { position: relative; z-index: 4; height: 100%; padding: 100px 150px; display: flex; flex-direction: column; }
+.s3-title { font-family: var(--font-display); font-weight: 400; font-size: 84px; line-height: 1; color: var(--ink); margin-bottom: 20px; }
+.s3-title .it { font-style: italic; color: var(--wash-plum); }
+.s3-cap { font-family: var(--font-body); font-weight: 300; font-size: 24px; color: var(--ink-soft); margin-bottom: 66px; }
+.s3-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 70px; flex: 1; }
+.swatch { position: relative; display: flex; flex-direction: column; }
+.swatch .dot { position: absolute; width: 290px; height: 290px; top: -46px; left: -46px; z-index: 0; opacity: 0.92; }
+.swatch .tag { position: relative; z-index: 2; font-family: var(--font-body); font-size: 17px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 200px; }
+.swatch h3 { position: relative; z-index: 2; font-family: var(--font-display); font-weight: 500; font-size: 46px; color: var(--ink); margin-bottom: 6px; }
+.swatch .rol { position: relative; z-index: 2; font-family: var(--font-body); font-size: 20px; font-weight: 500; color: var(--wash-brown); margin-bottom: 16px; }
+.swatch p { position: relative; z-index: 2; font-family: var(--font-body); font-weight: 300; font-size: 21px; line-height: 1.5; color: var(--ink-soft); max-width: 380px; }
+
+/* ===========================================
+   SLIDE 4 — THỜI TIẾT + KẾT
+   =========================================== */
+.s4-content { position: relative; z-index: 4; height: 100%; padding: 96px 150px; display: flex; flex-direction: column; }
+.s4-title { font-family: var(--font-display); font-weight: 400; font-size: 78px; line-height: 1.02; color: var(--ink); margin-bottom: 56px; max-width: 1100px; }
+.s4-title .it { font-style: italic; color: var(--wash-sky); }
+.s4-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; margin-bottom: 60px; }
+.card { position: relative; padding: 44px 48px; border: 1px solid rgba(51,48,42,0.14); border-radius: 4px; background: rgba(255,252,245,0.35); }
+.card h3 { font-family: var(--font-display); font-weight: 500; font-size: 40px; color: var(--ink); margin-bottom: 14px; }
+.card .big { font-family: var(--font-body); font-size: 22px; font-weight: 600; letter-spacing: 0.06em; color: var(--wash-orange); margin-bottom: 14px; }
+.card p { font-family: var(--font-body); font-weight: 300; font-size: 23px; line-height: 1.5; color: var(--ink-soft); }
+.s4-foot { margin-top: auto; display: flex; align-items: center; gap: 20px; font-family: var(--font-body); font-size: 20px; color: var(--ink-faint); }
+.s4-foot .ln { flex: 1; height: 1px; background: rgba(51,48,42,0.16); }
+
+/* ===========================================
+   ANIMATION
+   =========================================== */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 1s var(--ease), transform 1s var(--ease); }
+.slide.visible .reveal { opacity: 1; transform: translateY(0); }
+.slide.visible .r1 { transition-delay: 0.10s; } .slide.visible .r2 { transition-delay: 0.26s; }
+.slide.visible .r3 { transition-delay: 0.42s; } .slide.visible .r4 { transition-delay: 0.58s; }
+.slide.visible .r5 { transition-delay: 0.74s; } .slide.visible .r6 { transition-delay: 0.90s; }
+
+.blob-anim { opacity: 0; transform: scale(0.92); transition: opacity 1.4s var(--ease), transform 1.4s var(--ease); transition-delay: 0.15s; }
+.slide.visible .blob-anim { opacity: 1; transform: scale(1); }
+@keyframes floaty { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(6px,-12px) scale(1.02); } }
+.slide.visible .floaty { animation: floaty 11s ease-in-out infinite; }
+
+/* Chrome */
+.deck-controls { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 1000; display: flex; align-items: center; gap: 14px; font-family: var(--font-body); font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase; color: #7a6f5a; }
+.deck-controls .dots { display: flex; gap: 8px; }
+.deck-controls .dots i { width: 9px; height: 9px; border-radius: 50%; background: rgba(51,48,42,0.2); transition: all 0.4s var(--ease); }
+.deck-controls .dots i.on { background: var(--wash-orange); transform: scale(1.25); }
+</style>
+</head>
+<body>
+<div class="deck-viewport">
+    <main class="deck-stage" id="deckStage">
+
+        <svg width="0" height="0" style="position:absolute"><defs>
+            <filter id="wc-edge" x="-30%" y="-30%" width="160%" height="160%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="4" seed="7" result="n"/>
+                <feDisplacementMap in="SourceGraphic" in2="n" scale="46" xChannelSelector="R" yChannelSelector="G"/>
+                <feGaussianBlur stdDeviation="7"/>
+            </filter>
+            <filter id="wc-soft" x="-40%" y="-40%" width="180%" height="180%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="3" result="n"/>
+                <feDisplacementMap in="SourceGraphic" in2="n" scale="60" xChannelSelector="R" yChannelSelector="G"/>
+                <feGaussianBlur stdDeviation="16"/>
+            </filter>
+            <filter id="paper-grain">
+                <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="11"/>
+                <feColorMatrix type="saturate" values="0"/>
+                <feComponentTransfer><feFuncA type="linear" slope="0.14"/></feComponentTransfer>
+            </filter>
+        </defs></svg>
+
+        <!-- ================= SLIDE 1 — BÌA ================= -->
+        <section class="slide active visible">
+            <div class="paper"></div>
+            <svg class="washes" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+                <g class="blob-anim" filter="url(#wc-soft)">
+                    <ellipse cx="1540" cy="330" rx="420" ry="340" fill="var(--wash-green)" opacity="0.30"/>
+                    <ellipse cx="1680" cy="720" rx="360" ry="300" fill="var(--wash-orange)" opacity="0.36"/>
+                    <ellipse cx="1350" cy="880" rx="300" ry="240" fill="var(--wash-red)" opacity="0.26"/>
+                </g>
+                <g class="blob-anim floaty" filter="url(#wc-edge)">
+                    <ellipse cx="220" cy="880" rx="320" ry="230" fill="var(--wash-yellow)" opacity="0.30"/>
+                </g>
+                <!-- nét cọ: một chiếc lá -->
+                <g class="blob-anim" filter="url(#wc-edge)">
+                    <path d="M1620,180 C1820,260 1860,520 1700,640 C1600,500 1620,320 1620,180 Z" fill="var(--wash-plum)" opacity="0.18"/>
+                </g>
+            </svg>
+            <div class="vignette"></div>
+            <div class="s1-content">
+                <div class="s1-eyebrow reveal r1">Một chuyện nhỏ về mùa thu</div>
+                <h1 class="s1-title reveal r2">Vì sao lá<br><span class="g">đổi</span> <span class="it">màu</span> <span class="r">?</span></h1>
+                <p class="s1-sub reveal r3">
+                    Cây không "sơn" lá thành đỏ. Nó chỉ ngừng tô màu xanh —
+                    và để lộ những sắc màu vốn đã ở đó cả mùa hè.
+                </p>
+            </div>
+            <div class="s1-sign reveal r4">thực vật học · 01</div>
+            <svg class="grain"><rect width="100%" height="100%" filter="url(#paper-grain)"/></svg>
+        </section>
+
+        <!-- ================= SLIDE 2 — SƠ ĐỒ LOGIC ================= -->
+        <section class="slide">
+            <div class="paper"></div>
+            <svg class="washes" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+                <g class="blob-anim floaty" filter="url(#wc-soft)">
+                    <ellipse cx="1600" cy="160" rx="420" ry="240" fill="var(--wash-sky)" opacity="0.16"/>
+                    <ellipse cx="240" cy="980" rx="420" ry="220" fill="var(--wash-brown)" opacity="0.16"/>
+                </g>
+            </svg>
+            <div class="vignette"></div>
+            <div class="s2-content">
+                <div class="s2-head reveal r1"><span class="s2-kicker">Trình tự</span><span class="s2-rule"></span></div>
+                <h2 class="s2-title reveal r2">Đêm dài ra, màu sắc <span class="it">hiện về</span></h2>
+
+                <div class="flow">
+                    <div class="step reveal r2">
+                        <div class="blob blob-anim"><svg viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="40" ry="38" fill="var(--wash-sky)" opacity="0.5" filter="url(#wc-edge)"/></svg></div>
+                        <span class="num">01</span><h3>Đêm dài + lạnh</h3>
+                        <p>Tín hiệu chính là độ dài ban đêm, không phải nhiệt độ.</p>
+                    </div>
+                    <div class="arrow reveal r2"><svg viewBox="0 0 46 12"><path d="M0,6 H38 M32,1 L40,6 L32,11" stroke="currentColor" stroke-width="1.6" fill="none"/></svg></div>
+                    <div class="step reveal r3">
+                        <div class="blob blob-anim"><svg viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="40" ry="38" fill="var(--wash-green)" opacity="0.55" filter="url(#wc-edge)"/></svg></div>
+                        <span class="num">02</span><h3>Ngưng tái tạo diệp lục</h3>
+                        <p>Cây thôi sản sinh chlorophyll để thu hồi dưỡng chất.</p>
+                    </div>
+                    <div class="arrow reveal r3"><svg viewBox="0 0 46 12"><path d="M0,6 H38 M32,1 L40,6 L32,11" stroke="currentColor" stroke-width="1.6" fill="none"/></svg></div>
+                    <div class="step reveal r4">
+                        <div class="blob blob-anim"><svg viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="40" ry="38" fill="var(--wash-yellow)" opacity="0.6" filter="url(#wc-edge)"/></svg></div>
+                        <span class="num">03</span><h3>Diệp lục tan dần</h3>
+                        <p>Màu xanh mất đi, để lộ sắc tố bên dưới.</p>
+                    </div>
+                    <div class="arrow reveal r4"><svg viewBox="0 0 46 12"><path d="M0,6 H38 M32,1 L40,6 L32,11" stroke="currentColor" stroke-width="1.6" fill="none"/></svg></div>
+                    <div class="step reveal r5">
+                        <div class="blob blob-anim"><svg viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="40" ry="38" fill="var(--wash-red)" opacity="0.6" filter="url(#wc-edge)"/></svg></div>
+                        <span class="num">04</span><h3>Tầng rụng hình thành</h3>
+                        <p>Nút cuống lá chặn nước, giữ đường → sinh anthocyanin.</p>
+                    </div>
+                    <div class="arrow reveal r5"><svg viewBox="0 0 46 12"><path d="M0,6 H38 M32,1 L40,6 L32,11" stroke="currentColor" stroke-width="1.6" fill="none"/></svg></div>
+                    <div class="step reveal r6">
+                        <div class="blob blob-anim"><svg viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="40" ry="38" fill="var(--wash-brown)" opacity="0.6" filter="url(#wc-edge)"/></svg></div>
+                        <span class="num">05</span><h3>Rụng theo trọng lượng</h3>
+                        <p>Tannin nâu là sắc màu cuối cùng trước khi lá rời cành.</p>
+                    </div>
+                </div>
+            </div>
+            <svg class="grain"><rect width="100%" height="100%" filter="url(#paper-grain)"/></svg>
+        </section>
+
+        <!-- ================= SLIDE 3 — BA SẮC TỐ ================= -->
+        <section class="slide">
+            <div class="paper"></div>
+            <svg class="washes" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+                <g class="blob-anim floaty" filter="url(#wc-soft)">
+                    <ellipse cx="1550" cy="180" rx="440" ry="260" fill="var(--wash-green)" opacity="0.16"/>
+                    <ellipse cx="240" cy="960" rx="420" ry="240" fill="var(--wash-orange)" opacity="0.16"/>
+                </g>
+            </svg>
+            <div class="vignette"></div>
+            <div class="s3-content">
+                <h2 class="s3-title reveal r1">Ba loại sắc tố, <span class="it">một cuộc chuyển giao</span></h2>
+                <p class="s3-cap reveal r2">Lá mùa hè là một hỗn hợp. Khi xanh rút lui, thứ tự ai "lên tiếng" quyết định màu cuối.</p>
+                <div class="s3-grid">
+                    <div class="swatch reveal r2">
+                        <svg class="dot blob-anim" viewBox="0 0 300 300" filter="url(#wc-edge)"><ellipse cx="150" cy="150" rx="120" ry="112" fill="var(--wash-green)" opacity="0.5"/></svg>
+                        <span class="tag">Nền tảng</span>
+                        <h3>Diệp lục tố</h3>
+                        <div class="rol">Chlorophyll</div>
+                        <p>Pha lục lục! Sắc tố quang hợp, thống trị cả mùa hè. Mùa thu bị phân huỷ dần và để lộ các sắc tố khác.</p>
+                    </div>
+                    <div class="swatch reveal r3">
+                        <svg class="dot blob-anim" viewBox="0 0 300 300" filter="url(#wc-edge)"><ellipse cx="150" cy="150" rx="122" ry="108" fill="var(--wash-yellow)" opacity="0.58"/></svg>
+                        <span class="tag">Vàng – cam</span>
+                        <h3>Carotenoid</h3>
+                        <div class="rol">Carotenoids</div>
+                        <p>Vẫn có sẵn trong lá suốt mùa hè, chỉ bị che khuất. Bền hơn diệp lục nên ở lại lâu — cho màu vàng, cam.</p>
+                    </div>
+                    <div class="swatch reveal r4">
+                        <svg class="dot blob-anim" viewBox="0 0 300 300" filter="url(#wc-edge)"><ellipse cx="150" cy="150" rx="118" ry="120" fill="var(--wash-red)" opacity="0.55"/></svg>
+                        <span class="tag">Đỏ – tím</span>
+                        <h3>Anthocyanin</h3>
+                        <div class="rol">Anthocyanins</div>
+                        <p>Không có sẵn — cây tổng hợp mới vào thu, từ đường bị tầng rụng giữ lại. Cho màu đỏ, tím, thẫm.</p>
+                    </div>
+                </div>
+            </div>
+            <svg class="grain"><rect width="100%" height="100%" filter="url(#paper-grain)"/></svg>
+        </section>
+
+        <!-- ================= SLIDE 4 — THỜI TIẾT + KẾT ================= -->
+        <section class="slide">
+            <div class="paper"></div>
+            <svg class="washes" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+                <g class="blob-anim floaty" filter="url(#wc-soft)">
+                    <ellipse cx="960" cy="180" rx="620" ry="240" fill="var(--wash-sky)" opacity="0.18"/>
+                    <ellipse cx="420" cy="1000" rx="420" ry="240" fill="var(--wash-brown)" opacity="0.18"/>
+                    <ellipse cx="1620" cy="1000" rx="380" ry="220" fill="var(--wash-red)" opacity="0.16"/>
+                </g>
+            </svg>
+            <div class="vignette"></div>
+            <div class="s4-content">
+                <h2 class="s4-title reveal r1">Vì sao mỗi năm một khác? <span class="it">Thời tiết quyết định độ "rực".</span></h2>
+                <div class="s4-cols">
+                    <div class="card reveal r2">
+                        <h3>Đẹp nhất</h3>
+                        <div class="big">☀️ Ngày ấm nắng · 🌙 Đêm mát (không đóng băng)</div>
+                        <p>Nhiều đường sinh ra ban ngày, đêm lạnh giữ đường lại trong lá → anthocyanin đỏ đậm, sắc nét.</p>
+                    </div>
+                    <div class="card reveal r3">
+                        <h3>Nhạt nhoà</h3>
+                        <div class="big">🌧️ Thu ấm và ẩm</div>
+                        <p>Quá trình chậm lại, lá dễ chuyển nâu hoàn toàn trước khi rụng → bảng màu kém nổi bật.</p>
+                    </div>
+                </div>
+                <div class="s4-foot reveal r4">
+                    <span>Vì vậy: hai mùa thu không bao giờ giống nhau.</span>
+                    <span class="ln"></span>
+                    <span>Nguồn: Kew · RSC · ĐH Missouri</span>
+                </div>
+            </div>
+            <svg class="grain"><rect width="100%" height="100%" filter="url(#paper-grain)"/></svg>
+        </section>
+
+    </main>
+</div>
+
+<div class="deck-controls">
+    <div class="dots"><i class="on"></i><i></i><i></i><i></i></div>
+</div>
+
+<script>
+class SlidePresentation {
+    constructor() {
+        this.slides = document.querySelectorAll('.slide');
+        this.stage = document.getElementById('deckStage');
+        this.dots = document.querySelectorAll('.deck-controls .dots i');
+        this.current = 0;
+        this.fitStage();
+        window.addEventListener('resize', () => this.fitStage());
+        this.bindNav();
+        this.show(0);
+    }
+    fitStage() {
+        const f = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+        const x = (window.innerWidth - 1920 * f) / 2;
+        const y = (window.innerHeight - 1080 * f) / 2;
+        this.stage.style.transform = `translate(${x}px, ${y}px) scale(${f})`;
+    }
+    bindNav() {
+        document.addEventListener('keydown', (e) => {
+            if (['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)) { e.preventDefault(); this.show(this.current + 1); }
+            if (['ArrowLeft','ArrowUp','PageUp'].includes(e.key)) { e.preventDefault(); this.show(this.current - 1); }
+        });
+        let sx = null;
+        document.addEventListener('touchstart', (e) => sx = e.touches[0].clientX);
+        document.addEventListener('touchend', (e) => {
+            if (sx === null) return;
+            const dx = e.changedTouches[0].clientX - sx;
+            if (Math.abs(dx) > 50) this.show(this.current + (dx < 0 ? 1 : -1));
+            sx = null;
+        });
+    }
+    show(i) {
+        this.current = Math.max(0, Math.min(i, this.slides.length - 1));
+        this.slides.forEach((s, k) => { s.classList.toggle('active', k === this.current); s.classList.toggle('visible', k === this.current); });
+        this.dots.forEach((d, k) => d.classList.toggle('on', k === this.current));
+    }
+}
+new SlidePresentation();
+</script>
+</body>
+</html>

@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cẩm Nang Toàn Diện & Chuyên Sâu · Quản Trị Thu Mua Buổi 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1e3a8a;
+    --primary-hover: #1e40af;
+    --primary-light: #eff6ff;
+    --accent: #b45309;
+    --accent-bg: #fffbeb;
+    --danger: #b91c1c;
+    --danger-bg: #fef2f2;
+    --success: #15803d;
+    --success-bg: #f0fdf4;
+    --sidebar-bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --text-sub: #64748b;
+    --border: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+  }
+
+  @media print {
+    #sidebar, .no-print { display: none !important; }
+    #main-content { margin-left: 0 !important; width: 100% !important; padding: 0 !important; }
+    .card { box-shadow: none !important; border: 1px solid #ccc !important; page-break-inside: avoid; }
+    body { background: white !important; font-size: 11pt !important; }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-main);
+    background: #f1f5f9;
+    line-height: 1.7;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* SIDEBAR */
+  #sidebar {
+    width: 320px;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    overflow-y: auto;
+    padding: 30px 20px;
+    z-index: 50;
+  }
+  .sidebar-header {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-title {
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--primary);
+  }
+  .sidebar-subtitle {
+    font-size: 12px;
+    color: var(--text-sub);
+    margin-top: 4px;
+  }
+  .toc-list { list-style: none; }
+  .toc-item { margin-bottom: 6px; }
+  .toc-link {
+    display: block;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+  .toc-link:hover {
+    background: #e2e8f0;
+    color: var(--primary);
+  }
+  .toc-link.active {
+    background: var(--primary-light);
+    color: var(--primary);
+    font-weight: 700;
+  }
+  .toc-sub {
+    padding-left: 16px;
+    margin-top: 4px;
+    font-size: 12.5px;
+  }
+
+  /* MAIN CONTENT */
+  #main-content {
+    margin-left: 320px;
+    width: calc(100% - 320px);
+    padding: 40px 48px;
+    max-width: 1180px;
+  }
+
+  /* HEADER BANNER */
+  .hero-banner {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #2563eb 100%);
+    border-radius: 16px;
+    padding: 40px;
+    color: white;
+    margin-bottom: 36px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-banner::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255,255,255,0.25);
+  }
+  .hero-title {
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+  .hero-desc {
+    font-size: 15.5px;
+    opacity: 0.9;
+    max-width: 720px;
+    line-height: 1.6;
+  }
+  .hero-meta {
+    margin-top: 24px;
+    display: flex;
+    gap: 20px;
+    font-size: 13px;
+    opacity: 0.8;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 32px;
+    margin-bottom: 32px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #f1f5f9;
+  }
+  .card-title {
+    font-size: 21px;
+    font-weight: 800;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    letter-spacing: -0.01em;
+  }
+  .card-badge {
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+
+  /* TYPOGRAPHY */
+  h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 24px 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  h3::before {
+    content: "";
+    display: inline-block;
+    width: 4px;
+    height: 18px;
+    background: var(--primary);
+    border-radius: 2px;
+  }
+  h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #334155;
+    margin: 16px 0 8px 0;
+  }
+  p { margin-bottom: 12px; font-size: 15px; color: var(--text-main); }
+  ul, ol { margin-bottom: 16px; padding-left: 24px; }
+  li { margin-bottom: 8px; font-size: 14.5px; color: #334155; }
+  strong { color: #0f172a; }
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    background: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13.5px;
+    color: #0f172a;
+    border: 1px solid #e2e8f0;
+  }
+
+  /* CALLOUT BOXES */
+  .callout {
+    padding: 18px 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    font-size: 14.5px;
+    line-height: 1.65;
+    position: relative;
+  }
+  .callout-trap {
+    background: var(--danger-bg);
+    border-left: 4px solid var(--danger);
+    color: #7f1d1d;
+  }
+  .callout-trap .title {
+    font-weight: 800;
+    color: var(--danger);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .callout-insight {
+    background: var(--primary-light);
+    border-left: 4px solid var(--primary);
+    color: #1e3a8a;
+  }
+  .callout-insight .title {
+    font-weight: 800;
+    color: var(--primary);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .callout-rule {
+    background: var(--accent-bg);
+    border-left: 4px solid var(--accent);
+    color: #78350f;
+  }
+  .callout-rule .title {
+    font-weight: 800;
+    color: var(--accent);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+
+  /* TABLES */
+  .table-wrapper {
+    overflow-x: auto;
+    margin: 20px 0;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    text-align: left;
+    background: white;
+  }
+  th {
+    background: #f8fafc;
+    color: #334155;
+    font-weight: 700;
+    padding: 14px 16px;
+    border-bottom: 2px solid var(--border);
+    letter-spacing: 0.02em;
+  }
+  td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: #334155;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fafafa; }
+  .td-bold { font-weight: 700; color: #0f172a; }
+
+  /* Q&A BLOCKS */
+  .qa-card {
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 18px;
+    border: 1px solid var(--border);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .qa-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  }
+  .qa-q {
+    font-weight: 700;
+    font-size: 15.5px;
+    color: var(--primary);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .qa-q-num {
+    background: var(--primary);
+    color: white;
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .qa-a {
+    color: #334155;
+    font-size: 14.5px;
+    line-height: 1.7;
+    padding-left: 28px;
+  }
+  .qa-a strong { color: #0f172a; }
+
+  /* LAW GRID */
+  .law-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .law-box {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .law-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 4px;
+  }
+  .law-name {
+    font-weight: 800;
+    font-size: 15px;
+    margin-bottom: 6px;
+    color: #0f172a;
+  }
+  .law-desc {
+    font-size: 13px;
+    color: #475569;
+    line-height: 1.55;
+  }
+
+  /* BUTTONS */
+  .btn-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    color: var(--primary);
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 13.5px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+  }
+  .btn-action:hover {
+    background: #f8fafc;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR NAVIGATION -->
+<aside id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-title">Quản Trị Thu Mua</div>
+    <div class="sidebar-subtitle">Học phần 016043 · UTH (E-learning 1)</div>
+  </div>
+  <ul class="toc-list">
+    <li class="toc-item"><a href="#tong-quan" class="toc-link">📌 1. Bối cảnh & Cấu trúc bài học</a></li>
+    <li class="toc-item"><a href="#phuong-phap-mua" class="toc-link">📦 2. Chi tiết 4 phương pháp mua (1.7)</a></li>
+    <li class="toc-item"><a href="#cips-ungm" class="toc-link">🌐 3. Quy chuẩn quốc tế CIPS & UNGM</a></li>
+    <li class="toc-item"><a href="#loai-hinh" class="toc-link">🏢 4. Thu mua theo 4 loại hình tổ chức</a></li>
+    <li class="toc-item"><a href="#luat-dau-thau" class="toc-link">⚖️ 5. Chi tiết Luật Đấu thầu 22/2023</a></li>
+    <li class="toc-item"><a href="#mo-hinh-truong-thanh" class="toc-link">📈 6. Mô hình trưởng thành Reck & Long</a></li>
+    <li class="toc-item"><a href="#giai-11-cau-hoi" class="toc-link">💡 7. Giải 11 câu hỏi dẫn đọc (Mục 6)</a></li>
+    <li class="toc-item"><a href="#giai-11-tinh-huong" class="toc-link">🎯 8. Phân tích 11 tình huống (Mục 7)</a></li>
+    <li class="toc-item"><a href="#tu-dien-anh-viet" class="toc-link">📖 9. Bảng từ vựng thi cử Anh - Việt</a></li>
+  </ul>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main id="main-content">
+
+  <!-- HERO BANNER -->
+  <header class="hero-banner">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+      <span class="hero-tag">Tài liệu học tập chuyên sâu · Toàn bộ Chương 1</span>
+      <button class="btn-action no-print" onclick="window.print()">🖨️ In / Lưu PDF</button>
+    </div>
+    <h1 class="hero-title">CẨM NANG TOÀN DIỆN & ÔN THI BUỔI 3</h1>
+    <p class="hero-desc">
+      Hệ thống hóa toàn bộ kiến thức mục 1.7 (Các phương pháp mua hàng) và 1.8 (Thu mua theo loại hình tổ chức & mô hình trưởng thành) phục vụ bài kiểm tra 30 câu / 35 phút.
+    </p>
+    <div class="hero-meta">
+      <span>📚 Nguồn: CIPS, UNGM, UN Handbook, Luật Đấu thầu 22/2023, Mogre 2017</span>
+      <span>⏱️ Thời lượng học: 3 Giờ</span>
+    </div>
+  </header>
+
+  <!-- PHẦN 1: BỐI CẢNH -->
+  <section id="tong-quan" class="card">
+    <div class="card-header">
+      <h2 class="card-title">📌 1. Bối Cảnh, Mục Tiêu & Cấu Trúc Đề Thi 30 Câu</h2>
+      <span class="card-badge">Chuẩn đầu ra CLO1 & CLO3</span>
+    </div>
+    <p>
+      Buổi 3 là buổi tự học hoàn toàn (E-learning 1, tương đương 3 giờ tự học tại nhà). Kết quả của buổi này được đánh giá thông qua <strong>Bài kiểm tra ngắn 1 (Rubric A1.2)</strong> trên hệ thống LMS với cấu trúc đặc thù:
+    </p>
+    <ul>
+      <li><strong>Thời gian:</strong> 35 phút cho 30 câu trắc nghiệm (trung bình ~1 phút 10 giây / câu).</li>
+      <li><strong>Phân bổ câu hỏi:</strong> <strong>10 câu lý thuyết</strong> (định nghĩa, các ngưỡng giá trị, điều luật) + <strong>20 câu suy luận / tình huống</strong> (yêu cầu phân tích bối cảnh doanh nghiệp để chọn phương pháp mua hoặc xác định giai đoạn trưởng thành).</li>
+      <li><strong>Phạm vi kiến thức:</strong> Phủ toàn bộ <strong>Chương 1 (từ mục 1.1 đến 1.8)</strong>.</li>
+    </ul>
+
+    <div class="callout callout-insight">
+      <div class="title">💡 Bí quyết vượt qua 20 câu tình huống suy luận:</div>
+      Khi gặp bất kỳ tình huống mua hàng nào trong đề thi, đừng vội đọc 4 phương án A-B-C-D. Hãy tự trả lời 4 câu hỏi sàng lọc sau:
+      <ol style="margin-top: 8px; margin-bottom: 0;">
+        <li><em>Hàng hóa này đã có thông số kỹ thuật (đặc tả) rõ ràng chưa? Thị trường có nhiều nhà cung cấp cạnh tranh không?</em> $ightarrow$ Nếu CÓ cả hai: <strong>Đấu thầu / Báo giá cạnh tranh</strong>.</li>
+        <li><em>Hàng hóa này phức tạp, đặc thù, công nghệ mới, hay cần nhà cung cấp cùng thiết kế giải pháp?</em> $ightarrow$ <strong>Mua trực tiếp & Đàm phán</strong>.</li>
+        <li><em>Hàng hóa này mua lặp đi lặp lại nhiều lần trong năm (như thùng carton, vật tư tiêu hao)?</em> $ightarrow$ <strong>Hợp đồng nguyên tắc & Đơn hàng bao</strong>.</li>
+        <li><em>Nhu cầu này xuất hiện ở nhiều công ty con/phòng ban và đã có dữ liệu chi tiêu hợp nhất?</em> $ightarrow$ <strong>Mua tập trung</strong>.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- PHẦN 2: CHI TIẾT 4 PHƯƠNG PHÁP -->
+  <section id="phuong-phap-mua" class="card">
+    <div class="card-header">
+      <h2 class="card-title">📦 2. Phân Tích Chuyên Sâu 4 Phương Pháp Mua Hàng (Mục 1.7)</h2>
+      <span class="card-badge">Trọng tâm 20 câu suy luận</span>
+    </div>
+    <p>
+      Doanh nghiệp không bao giờ áp dụng bừa bãi một phương pháp mua cho mọi loại hàng hóa. Việc lựa chọn phương pháp dựa trên 3 ràng buộc chính: <strong>Hạn mức phê duyệt</strong> (ngân sách), <strong>Vị thế chiến lược của nhóm hàng</strong> (tác động kinh doanh & rủi ro cung ứng), và <strong>Năng lực nội bộ</strong> của đội ngũ thu mua.
+    </p>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 20%;">Phương pháp</th>
+            <th style="width: 25%;">Bản chất & Trường hợp áp dụng</th>
+            <th style="width: 30%;">Điều kiện tiên quyết & Cơ chế vận hành</th>
+            <th style="width: 25%;">Rủi ro & Đánh đổi (Trade-offs)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-bold">1. Đấu thầu / Báo giá cạnh tranh<br><span style="font-size:12px; font-weight:normal; color:#64748b;">(Competitive Bidding / RFQ / ITB)</span></td>
+            <td>Dùng cho hàng hóa/dịch vụ tiêu chuẩn, đặc tả rõ ràng; quyết định chọn nhà cung cấp dựa trên giá thấp nhất và điều kiện giao hàng tốt nhất.</td>
+            <td><strong>BẮT BUỘC 2 ĐIỀU KIỆN ĐỒNG THỜI:</strong><br>
+            1. Đặc tả kỹ thuật đủ rõ (để các bản báo giá cùng một quy chuẩn).<br>
+            2. Thị trường có đủ nhiều NCC có năng lực và thực sự muốn cạnh tranh.</td>
+            <td>• Thiếu điều kiện 1: Báo giá không cùng phạm vi, so sánh khập khiễng.<br>• Thiếu điều kiện 2: Đấu thầu chỉ mang tính hình thức, dễ bị "quân xanh quân đỏ" thông thầu.</td>
+          </tr>
+          <tr>
+            <td class="td-bold">2. Mua trực tiếp & Đàm phán<br><span style="font-size:12px; font-weight:normal; color:#64748b;">(Direct Sourcing & Negotiation / RFP)</span></td>
+            <td>Dùng cho hàng hóa/dịch vụ phức tạp, độc quyền, công nghệ mới, hoặc khi doanh nghiệp muốn xây dựng quan hệ đối tác chiến lược.</td>
+            <td><strong>Cơ chế "Cùng tìm giải pháp":</strong> Hai bên không mặc cả trên một phương án cố định, mà NCC có thể đề xuất đổi thiết kế, đổi công nghệ hoặc cải tiến quy trình để giảm chi phí chung.</td>
+            <td>Đòi hỏi năng lực đàm phán cao của đội ngũ mua hàng. Rủi ro tham nhũng, thiếu minh bạch nếu thiếu cơ chế kiểm soát nội bộ chặt chẽ.</td>
+          </tr>
+          <tr>
+            <td class="td-bold">3. Hợp đồng nguyên tắc & Đơn hàng bao<br><span style="font-size:12px; font-weight:normal; color:#64748b;">(Blanket Order / Framework Agreement)</span></td>
+            <td>Dùng cho hàng hóa mua lặp đi lặp lại nhiều lần trong năm, quy cách ổn định, nhu cầu dự báo được (carton, hóa chất thông dụng, văn phòng phẩm).</td>
+            <td>Ký một hợp đồng khung xác lập trước bảng giá, điều kiện chất lượng và thời hạn giao hàng cho cả năm. Khi phòng ban cần, chỉ việc phát lệnh giao hàng (release order / call-off).</td>
+            <td><strong>Ưu điểm:</strong> Giảm tối đa chi phí giao dịch hành chính.<br><strong>Rủi ro:</strong> Nếu cam kết sản lượng cả năm mà thực tế tiêu thụ không hết, doanh nghiệp có thể bị phạt hoặc đối mặt tranh chấp pháp lý.</td>
+          </tr>
+          <tr>
+            <td class="td-bold">4. Mua tập trung theo nhóm hàng<br><span style="font-size:12px; font-weight:normal; color:#64748b;">(Centralized Category Sourcing)</span></td>
+            <td>Nhiều đơn vị, nhà máy, công ty con trong cùng tập đoàn có nhu cầu mua cùng một chủng loại hàng hóa (dầu nhớt, laptop, bảo hộ lao động).</td>
+            <td><strong>Điều kiện sống còn:</strong> Tập đoàn phải có <em>Dữ liệu chi tiêu hợp nhất (consolidated spend data)</em> để gom toàn bộ khối lượng nhu cầu, dùng lợi thế kinh tế quy mô (economies of scale) để ép giá NCC.</td>
+            <td>Quy trình ra quyết định chậm hơn; nếu không xử lý tốt sẽ gây xung đột giữa yêu cầu đặc thù của địa phương và chính sách chung của tập đoàn.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-trap">
+      <div class="title">⚠️ BẪY THI CỐ ĐỊNH VỀ THU MUA ĐIỆN TỬ (E-PROCUREMENT):</div>
+      <strong>Câu hỏi thi:</strong> <em>"Doanh nghiệp đưa toàn bộ việc gửi yêu cầu báo giá lên nền tảng phần mềm trực tuyến, đây có phải là phương pháp mua thứ năm không?"</em><br>
+      $ightarrow$ <strong>TRẢ LỜI: KHÔNG!</strong> E-procurement chỉ là <strong>phương tiện / công cụ số hóa</strong> hỗ trợ thực thi 4 phương pháp trên (giúp gửi báo giá nhanh hơn, đấu giá trực tuyến, minh bạch hóa dữ liệu). Phương pháp bản chất ở đây vẫn là "Yêu cầu báo giá cạnh tranh".
+    </div>
+  </section>
+
+  <!-- PHẦN 3: CIPS & UNGM -->
+  <section id="cips-ungm" class="card">
+    <div class="card-header">
+      <h2 class="card-title">🌐 3. Quy Chuẩn Đấu Thầu Quốc Tế (CIPS & UNGM)</h2>
+      <span class="card-badge">Tài liệu [1], [2], [3]</span>
+    </div>
+
+    <h3>A. Viện Cung ứng Hoàng gia Anh (CIPS) – 6 Phương Pháp Thu Mua:</h3>
+    <p>CIPS phân loại thị trường mời thầu thành 6 nhánh kỹ thuật:</p>
+    <ol>
+      <li><strong>Open Tendering (Đấu thầu rộng rãi):</strong> Thông báo công khai trên các phương tiện truyền thông. Bất kỳ nhà thầu nào có năng lực đều được nộp hồ sơ. Đảm bảo tính cạnh tranh và minh bạch cao nhất.</li>
+      <li><strong>Selective / Restricted Tendering (Đấu thầu hạn chế):</strong> Chỉ gửi hồ sơ mời thầu cho một danh sách nhà thầu đã qua vòng sơ tuyển (Pre-qualification) hoặc được chọn lọc kỹ lưỡng. Thích hợp cho các dự án phức tạp, bảo mật.</li>
+      <li><strong>Two-Stage Tendering (Đấu thầu hai giai đoạn):</strong> 
+        <ul>
+          <li><em>Giai đoạn 1:</em> Nhà thầu nộp đề xuất giải pháp kỹ thuật sơ bộ (không kèm giá). Người mua đàm phán để hoàn thiện đề bài kỹ thuật.</li>
+          <li><em>Giai đoạn 2:</em> Các nhà thầu đạt yêu cầu nộp báo giá tài chính chính thức trên bản đặc tả đã thống nhất.</li>
+        </ul>
+      </li>
+      <li><strong>Request for Quotation - RFQ (Yêu cầu báo giá):</strong> Dùng cho hàng sẵn có trên thị trường, quy chuẩn rõ ràng, giá trị thấp. Tiêu chí chọn duy nhất: Giá thấp nhất.</li>
+      <li><strong>Request for Proposal - RFP (Yêu cầu đề xuất):</strong> Dùng cho dịch vụ tư vấn, phần mềm CNTT, giải pháp phức tạp. Người mua chỉ nêu mục tiêu, nhà cung cấp tự đề xuất phương án $ightarrow$ Đánh giá dựa trên <strong>tổng điểm kỹ thuật + giá (Best Value for Money)</strong>.</li>
+      <li><strong>Single-Source Tendering (Chỉ định thầu / Nguồn duy nhất):</strong> Mua thẳng từ 1 nhà cung cấp duy nhất không qua cạnh tranh (chỉ dùng khi độc quyền, khẩn cấp hoặc tương thích hệ thống).</li>
+    </ol>
+
+    <h3>B. Cổng Thông Tin Liên Hợp Quốc (UNGM) – 4 Hình Thức & Ngưỡng Giá Trị:</h3>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Hình thức (Acronym)</th>
+            <th>Tên đầy đủ</th>
+            <th>Ngưỡng giá trị điển hình</th>
+            <th>Bản chất & Tiêu chí xét thầu</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>REOI</code></td>
+            <td>Request for Expression of Interest</td>
+            <td>Giai đoạn tiền đấu thầu</td>
+            <td>Không mua hàng; dùng để khảo sát thị trường, đánh giá mức độ quan tâm của NCC và lập danh sách rút gọn trước khi phát thầu lớn.</td>
+          </tr>
+          <tr>
+            <td><code>RFQ</code></td>
+            <td>Request for Quotation</td>
+            <td>Dưới $30.000 – $50.000</td>
+            <td>Thủ tục phi chính thức (informal). Mua hàng hóa/dịch vụ đơn giản, sẵn có. Trao thầu cho <strong>giá thấp nhất đáp ứng tiêu chuẩn</strong>.</td>
+          </tr>
+          <tr>
+            <td><code>ITB</code></td>
+            <td>Invitation to Bid</td>
+            <td>Trên $30.000 – $50.000</td>
+            <td>Thủ tục chính thức (formal). Dùng cho hàng hóa/xây lắp có đặc tả định lượng chính xác. Trao cho <strong>Lowest substantially compliant bid</strong>.</td>
+          </tr>
+          <tr>
+            <td><code>RFP</code></td>
+            <td>Request for Proposal</td>
+            <td>Trên $30.000 – $50.000</td>
+            <td>Thủ tục chính thức (formal). Dùng cho dịch vụ tư vấn/giải pháp phức tạp. Trao cho <strong>Best Value for Money</strong> (kết hợp kỹ thuật + giá).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>C. Mục 5.2 Sổ tay Liên Hợp Quốc (UN Handbook) – Xác Định Yêu Cầu (Requirement Definition):</h3>
+    <p>
+      Xác định yêu cầu là bước đặt nền móng cho toàn bộ quá trình thu mua. Nếu đầu vào sai, toàn bộ quy trình chấm thầu phía sau sẽ vô nghĩa:
+    </p>
+    <ul>
+      <li><strong>Mua hàng hóa hữu hình:</strong> Dùng <em>Technical Specifications (Bảng đặc tả kỹ thuật)</em> mô tả thông số vật lý, bản vẽ, tiêu chuẩn kỹ thuật (ISO, DIN, ASTM). Rất dễ đo lường và nghiệm thu khi giao hàng.</li>
+      <li><strong>Mua dịch vụ vô hình:</strong> Cực kỳ khó đo lường trước khi sử dụng. Do đó, UN bắt buộc phải chuẩn bị 2 tài liệu cốt lõi:
+        <ul>
+          <li><strong>SOW (Statement of Work - Phạm vi công việc):</strong> Mô tả chi tiết từng đầu việc nhà thầu phải làm, phương pháp thực hiện, tiến độ và sản phẩm bàn giao (Deliverables).</li>
+          <li><strong>SLA (Service Level Agreement - Cam kết mức dịch vụ):</strong> Đặt ra các chỉ số định lượng bắt buộc để nghiệm thu (ví dụ: thời gian khắc phục sự cố &lt; 2h, tỷ lệ vận hành máy chủ đạt 99.9%). Nếu vi phạm SLA sẽ bị trừ tiền hoặc phạt vi phạm hợp đồng.</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <!-- PHẦN 4: 4 LOẠI HÌNH TỔ CHỨC -->
+  <section id="loai-hinh" class="card">
+    <div class="card-header">
+      <h2 class="card-title">🏢 4. Trọng Tâm Thu Mua Theo Loại Hình Tổ Chức (Mục 1.8.1 - 1.8.2)</h2>
+      <span class="card-badge">Tài liệu [3], [4], [7]</span>
+    </div>
+    <p>
+      Bản chất ngành nghề kinh doanh quyết định rủi ro thu mua lớn nhất nằm ở đâu. Thi cử sẽ so sánh trực tiếp các loại hình này:
+    </p>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Loại hình</th>
+            <th>Đặc điểm hoạt động</th>
+            <th>Trọng tâm quản trị (KPIs)</th>
+            <th>Hậu quả nếu mua sai</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-bold">1. Doanh nghiệp Sản xuất<br><span style="font-size:12px; font-weight:normal; color:#64748b;">(Manufacturing)</span></td>
+            <td>Mua nguyên vật liệu thô, linh kiện để đưa vào dây chuyền chế biến thành sản phẩm hoàn chỉnh.</td>
+            <td>• <strong>Chất lượng đầu vào:</strong> Nguyên liệu phải chuẩn thông số kỹ thuật.<br>• <strong>Ổn định nguồn cung:</strong> Giao hàng đúng giờ (JIT) để không dừng máy.<br>• <strong>Tổng chi phí sở hữu (TCO)</strong> & Hợp tác dài hạn với NCC.</td>
+            <td>Nguyên liệu kém chất lượng làm hỏng cả lô hàng thành phẩm; nguyên liệu giao trễ làm dừng cả dây chuyền nhà máy, phát sinh chi phí nhân công nhàn rỗi khổng lồ.</td>
+          </tr>
+          <tr>
+            <td class="td-bold">2. Doanh nghiệp Thương mại<br><span style="font-size:12px; font-weight:normal; color:#64748b;">(Retail / Trading / Siêu thị)</span></td>
+            <td>Mua hàng hóa thành phẩm về để bán lại cho người tiêu dùng, không tham gia biến đổi lý hóa.</td>
+            <td>• <strong>Dự báo nhu cầu thị trường chính xác</strong>.<br>• <strong>Tốc độ vòng quay tồn kho (Inventory Turnover)</strong>.<br>• <strong>Biên lợi nhuận gộp (Gross Margin)</strong> & Đàm phán chiết khấu.</td>
+            <td>Mua thừa hàng thì tồn kho đọng vốn, hàng cận date, phải xả lỗ hoặc hủy bỏ (ảnh hưởng trực tiếp vào lợi nhuận ròng). Mua thiếu thì mất khách vào tay đối thủ.</td>
+          </tr>
+          <tr>
+            <td class="td-bold">3. Doanh nghiệp Dịch vụ<br><span style="font-size:12px; font-weight:normal; color:#64748b;">(Services Procurement)</span></td>
+            <td>Mua các dịch vụ thuê ngoài (vệ sinh, an ninh, bảo hiểm, tư vấn pháp lý, bảo trì phần mềm...).</td>
+            <td>• <strong>Kiểm soát chất lượng vô hình</strong>.<br>• Chuẩn hóa <strong>SOW (Phạm vi công việc)</strong> và <strong>SLA (Mức cam kết dịch vụ)</strong>.<br>• Giám sát nghiệm thu theo từng cột mốc (milestone).</td>
+            <td>Tranh chấp hợp đồng do hai bên hiểu khác nhau về chất lượng; nhà thầu làm việc đối phó, không đạt kỳ vọng nhưng vẫn đòi thanh toán đủ tiền.</td>
+          </tr>
+          <tr>
+            <td class="td-bold">4. Khu vực Công<br><span style="font-size:12px; font-weight:normal; color:#64748b;">(Public Procurement)</span></td>
+            <td>Sử dụng tiền thuế và ngân sách nhà nước để mua sắm tài sản, dịch vụ công (bệnh viện công, trường học...).</td>
+            <td>• <strong>Tuân thủ tuyệt đối Luật Đấu thầu</strong>.<br>• Bảo đảm tính <strong>Cạnh tranh, Công bằng, Minh bạch và Trách nhiệm giải trình</strong>.<br>• Liêm chính và chống lãng phí, tham nhũng.</td>
+            <td>Gây thất thoát ngân sách nhà nước, bị thanh tra, kiểm toán, xử lý kỷ luật hoặc truy cứu trách nhiệm hình sự. Quy trình phê duyệt kéo dài, kém linh hoạt.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-rule">
+      <div class="title">📌 Case study so sánh kinh điển (Câu hỏi C1 & C2 trong PDF):</div>
+      <ul>
+        <li><strong>Siêu thị vs Nhà máy cùng mua Sữa tươi:</strong> Siêu thị mua để bán lại, cực kỳ lo sợ sữa hết hạn (short shelf-life) $ightarrow$ trọng tâm là <em>dự báo và vòng quay kho</em>. Nhà máy mua sữa làm nguyên liệu chế biến $ightarrow$ trọng tâm là <em>chỉ tiêu độ béo, độ tươi, vi sinh và tính liên tục của xe bồn cấp sữa</em>.</li>
+        <li><strong>Bệnh viện công vs Bệnh viện tư cùng mua Máy CT Scanner:</strong> Bệnh viện công dùng ngân sách $ightarrow$ bắt buộc mở thầu công khai theo Luật Đấu thầu, thời gian kéo dài 3-6 tháng, quy trình lưu trữ hồ sơ gắt gao. Bệnh viện tư $ightarrow$ lãnh đạo bệnh viện trực tiếp chọn 1-2 hãng uy tín (Siemens, GE, Philips) đàm phán giá và dịch vụ hậu mãi, quyết định mua trong vài ngày.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PHẦN 5: LUẬT ĐẤU THẦU -->
+  <section id="luat-dau-thau" class="card">
+    <div class="card-header">
+      <h2 class="card-title">⚖️ 5. Chi Tiết Luật Đấu Thầu 22/2023/QH15 (Chương II, Điều 20 – 28)</h2>
+      <span class="card-badge">Tài liệu bắt buộc [4]</span>
+    </div>
+    <p>
+      Sinh viên chỉ cần nắm vững <strong>tên hình thức lựa chọn nhà thầu</strong> và <strong>trường hợp áp dụng đặc trưng</strong> theo quy định của Luật:
+    </p>
+
+    <div class="law-grid">
+      <div class="law-box">
+        <div class="law-num">ĐIỀU 20</div>
+        <div class="law-name">Đấu thầu rộng rãi</div>
+        <div class="law-desc">Là hình thức cơ bản, mặc định áp dụng cho tất cả các gói thầu, không hạn chế số lượng nhà thầu tham dự. Mọi nhà thầu đáp ứng tiêu chuẩn đều được nộp hồ sơ.</div>
+      </div>
+
+      <div class="law-box">
+        <div class="law-num">ĐIỀU 21</div>
+        <div class="law-name">Đấu thầu hạn chế</div>
+        <div class="law-desc">Chỉ áp dụng khi gói thầu có yêu cầu kỹ thuật cao, công nghệ phức tạp hoặc mang tính chất nghiên cứu, thử nghiệm mà chỉ có một số nhà thầu đáp ứng (mời tối thiểu 3 nhà thầu).</div>
+      </div>
+
+      <div class="law-box">
+        <div class="law-num">ĐIỀU 22</div>
+        <div class="law-name">Chỉ định thầu</div>
+        <div class="law-desc">Áp dụng trong tình huống khẩn cấp (thiên tai, dịch bệnh, chiến tranh), bảo mật quốc gia, gói thầu bản quyền/sở hữu trí tuệ chỉ duy nhất 1 tác giả, hoặc gói thầu giá trị nhỏ dưới hạn mức luật định.</div>
+      </div>
+
+      <div class="law-box">
+        <div class="law-num">ĐIỀU 23</div>
+        <div class="law-name">Chào hàng cạnh tranh</div>
+        <div class="law-desc">Áp dụng cho gói thầu thông dụng, sẵn có trên thị trường với đặc tính kỹ thuật đã được tiêu chuẩn hóa và tương đương nhau về chất lượng; giá trị gói thầu trong hạn mức quy định.</div>
+      </div>
+
+      <div class="law-box">
+        <div class="law-num">ĐIỀU 24</div>
+        <div class="law-name">Mua sắm trực tiếp</div>
+        <div class="law-desc">Áp dụng khi cần mua thêm một lượng hàng hóa/dịch vụ tương tự từ nhà thầu đã trúng thầu trước đó thông qua đấu thầu rộng rãi (thời gian không quá 12 tháng, đơn giá không vượt hợp đồng cũ).</div>
+      </div>
+
+      <div class="law-box">
+        <div class="law-num">ĐIỀU 25</div>
+        <div class="law-name">Tự thực hiện</div>
+        <div class="law-desc">Áp dụng khi chủ đầu tư hoặc đơn vị trực tiếp quản lý dự án có đủ năng lực kỹ thuật, máy móc, tài chính và nhân sự để tự thực hiện gói thầu của chính mình.</div>
+      </div>
+
+      <div class="law-box">
+        <div class="law-num">ĐIỀU 26</div>
+        <div class="law-name">Cộng đồng tham gia</div>
+        <div class="law-desc">Áp dụng cho các gói thầu thuộc chương trình mục tiêu quốc gia, dự án giảm nghèo quy mô nhỏ giao cho cộng đồng dân cư, người dân địa phương tự thi công, quản lý.</div>
+      </div>
+
+      <div class="law-box">
+        <div class="law-num">ĐIỀU 27</div>
+        <div class="law-name">Đàm phán giá</div>
+        <div class="law-desc">Quy định rất đặc thù: Áp dụng đối với gói thầu <strong>mua thuốc biệt dược gốc, sinh phẩm y tế hiếm</strong> chỉ có 1 hoặc 2 nhà sản xuất trên thế giới.</div>
+      </div>
+
+      <div class="law-box">
+        <div class="law-num">ĐIỀU 28</div>
+        <div class="law-name">Lựa chọn trong trường hợp đặc biệt</div>
+        <div class="law-desc">Áp dụng khi gói thầu xuất hiện những điều kiện đặc thù mà không thể áp dụng bất kỳ hình thức nào từ Điều 20 đến 27; phải trình Thủ tướng Chính phủ xem xét, quyết định.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHẦN 6: MÔ HÌNH TRƯỞNG THÀNH -->
+  <section id="mo-hinh-truong-thanh" class="card">
+    <div class="card-header">
+      <h2 class="card-title">📈 6. Mô Hình Trưởng Thành 4 Giai Đoạn (Reck & Long 1988)</h2>
+      <span class="card-badge">Tài liệu [5] Mogre et al. (2017)</span>
+    </div>
+    <p>
+      Mô hình của Reck & Long (1988) giải thích quá trình tiến hóa của phòng mua hàng từ một bộ phận hành chính giấy tờ thành động cơ tạo ra lợi thế cạnh tranh cốt lõi cho doanh nghiệp:
+    </p>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Giai đoạn</th>
+            <th>Tên cấp bậc</th>
+            <th>Triết lý hoạt động & Định vị</th>
+            <th>Mối quan hệ với Nhà cung cấp</th>
+            <th>Thước đo đánh giá hiệu quả (KPIs)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-bold">Cấp độ 1</td>
+            <td><strong>Bị động / Phản ứng<br>(Passive)</strong></td>
+            <td>Bộ phận mua hàng bị xem là văn phòng hành chính giấy tờ thuần túy. Hoạt động theo cơ chế phản ứng: phòng ban nội bộ cần gì thì làm phiếu yêu cầu, phòng mua hàng đi hỏi giá và đặt mua.</td>
+            <td>Quan hệ thuần túy giao dịch ngắn hạn (Transactional). Không có chiến lược nhà cung cấp.</td>
+            <td>• Số lượng đơn đặt hàng (PO) xử lý đúng hạn.<br>• Tuân thủ đúng thủ tục giấy tờ hành chính.</td>
+          </tr>
+          <tr>
+            <td class="td-bold">Cấp độ 2</td>
+            <td><strong>Thương mại / Độc lập<br>(Independent)</strong></td>
+            <td>Bắt đầu chuẩn hóa quy trình và gộp đơn mua tập trung. Tuy nhiên, phòng mua hàng hoạt động độc lập và tập trung cực đoan vào <strong>GIẢM GIÁ MUA</strong>.</td>
+            <td><strong>Quan hệ đối đầu (Adversarial):</strong> Xem việc đàm phán là trò chơi "tổng bằng không (zero-sum game)". Thường xuyên thay đổi hoặc dọa đổi nhà cung cấp để ép giá.</td>
+            <td>• Mức tiết kiệm chi phí (% giảm giá so với năm trước hoặc so với giá thị trường).</td>
+          </tr>
+          <tr>
+            <td class="td-bold">Cấp độ 3</td>
+            <td><strong>Hỗ trợ / Phối hợp<br>(Supportive)</strong></td>
+            <td>Phòng mua hàng đóng vai trò hỗ trợ chiến lược cạnh tranh của công ty. Thành lập các <strong>nhóm liên chức năng (Cross-functional teams)</strong> gồm Mua hàng + Kỹ thuật + R&D + Tài chính.</td>
+            <td><strong>Quan hệ đối tác dài hạn:</strong> Đánh giá, chọn lọc nhà cung cấp chiến lược; cùng phát triển nhà cung cấp (Supplier Development).</td>
+            <td>• <strong>Tổng chi phí sở hữu (TCO - Total Cost of Ownership)</strong>.<br>• Chất lượng sản phẩm và độ ổn định của toàn chuỗi cung ứng.</td>
+          </tr>
+          <tr>
+            <td class="td-bold">Cấp độ 4</td>
+            <td><strong>Chiến lược / Tích hợp<br>(Integrative)</strong></td>
+            <td>Chiến lược thu mua được tích hợp hoàn toàn vào Chiến lược tổng thể của doanh nghiệp. Giám đốc thu mua ngồi trong Ban điều hành / Hội đồng chiến lược.</td>
+            <td><strong>Đồng sáng tạo giá trị (Value Co-creation):</strong> Mời nhà cung cấp tham gia ngay từ khâu thiết kế ý tưởng sản phẩm mới (Early Supplier Involvement - ESI); cùng chia sẻ rủi ro và lợi nhuận.</td>
+            <td>• Đóng góp vào lợi thế cạnh tranh độc quyền trên thị trường.<br>• Năng lực chống chịu và quản trị rủi ro chuỗi cung ứng toàn cầu.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-trap">
+      <div class="title">⚠️ 2 ĐIỂM BẪY SỐNG CÒN TRONG BÀI THI VỀ MÔ HÌNH RECK & LONG:</div>
+      <p>1. <strong>Bước chuyển từ Cấp 2 lên Cấp 3 đòi hỏi điều gì?</strong><br>
+      $ightarrow$ <strong>BẮT BUỘC PHẢI CÓ QUYẾT ĐỊNH CỦA BAN LÃNH ĐẠO</strong> về việc thay đổi cơ chế phân quyền và hệ thống thước đo KPI (chuyển từ đo giá mua sang đo TCO). Nếu Ban lãnh đạo không thay đổi tư duy, doanh nghiệp dù có đổ hàng triệu đô la mua phần mềm ERP đắt đỏ cũng chỉ là làm nhanh hơn những việc sự vụ ở Cấp 2!</p>
+      <p>2. <strong>Doanh nghiệp có cần thiết phải đưa tất cả mọi nhóm hàng lên Cấp độ 4 không?</strong><br>
+      $ightarrow$ <strong>TUYỆT ĐỐI KHÔNG!</strong> Chỉ áp dụng Cấp độ 4 cho các nhóm hàng chiến lược có tác động lớn đến sống còn của doanh nghiệp. Việc đưa những nhóm hàng thông thường (văn phòng phẩm, dụng cụ lau dọn) lên Cấp độ 4 sẽ gây lãng phí nguồn lực và thời gian vô ích.</p>
+    </div>
+  </section>
+
+  <!-- PHẦN 7: GIẢI CHI TIẾT 11 CÂU HỎI -->
+  <section id="giai-11-cau-hoi" class="card">
+    <div class="card-header">
+      <h2 class="card-title">💡 7. Giải Chi Tiết 11 Câu Hỏi Dẫn Đọc (Mục 6 trong PDF)</h2>
+      <span class="card-badge">Chìa khóa ôn luyện</span>
+    </div>
+    <p>Các câu hỏi này do chính giảng viên biên soạn để định hướng tư duy làm bài trắc nghiệm:</p>
+
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">CÂU 1</span> Theo UNGM [2], RFQ, ITB và RFP khác nhau thế nào về giá trị mua và tính chất nhu cầu? Cách chia theo ngưỡng giá trị này liên quan gì đến cơ chế hạn mức phê duyệt ở mục 3.1?</div>
+      <div class="qa-a">
+        <strong>Trả lời:</strong><br>
+        • <strong>RFQ (Request for Quotation):</strong> Áp dụng cho gói giá trị thấp (thường &lt; $30.000 – $50.000); hàng hóa tiêu chuẩn, sẵn có trên thị trường.<br>
+        • <strong>ITB (Invitation to Bid):</strong> Áp dụng cho gói giá trị lớn (&gt; $30.000 – $50.000); hàng hóa/xây lắp có đặc tả kỹ thuật định lượng rất rõ ràng; chấm thầu chọn bên giá thấp nhất đáp ứng tiêu chuẩn.<br>
+        • <strong>RFP (Request for Proposal):</strong> Áp dụng cho gói giá trị lớn (&gt; $30.000 – $50.000); dùng cho dịch vụ tư vấn, giải pháp phức tạp chưa rõ quy chuẩn; chấm thầu dựa trên điểm tổng hợp (kỹ thuật + giá).<br>
+        $ightarrow$ <strong>Mối liên hệ:</strong> Cơ chế ngưỡng giá trị này tương đương với <strong>Cơ chế phân quyền hạn mức phê duyệt</strong> trong doanh nghiệp (ví dụ: Chuyên viên thu mua được duyệt mua dưới 50 triệu, Trưởng phòng duyệt dưới 500 triệu, trên 500 triệu bắt buộc đấu thầu có chữ ký Tổng Giám đốc).
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">CÂU 2</span> Xếp sáu phương pháp do CIPS [1] liệt kê vào bốn phương pháp ở mục 3.1. Phương pháp nào khó xếp, vì sao?</div>
+      <div class="qa-a">
+        <strong>Trả lời:</strong><br>
+        • <em>Open Tendering</em> & <em>Selective Tendering</em> & <em>RFQ</em> $ightarrow$ Xếp vào nhóm: <strong>Đấu thầu / Yêu cầu báo giá cạnh tranh</strong>.<br>
+        • <em>RFP</em> & <em>Single-source Tendering</em> $ightarrow$ Xếp vào nhóm: <strong>Mua trực tiếp & Đàm phán</strong>.<br>
+        • <strong>Phương pháp khó xếp nhất:</strong> Là <strong>Two-stage tendering (Đấu thầu 2 giai đoạn)</strong>. Vì bản chất nó là phương pháp lai (hybrid): Giai đoạn 1 mang bản chất của <em>Đàm phán & Cùng tìm giải pháp</em> (nhà thầu góp ý kỹ thuật); Giai đoạn 2 lại mang bản chất của <em>Đấu thầu cạnh tranh</em> (các nhà thầu cạnh tranh giá trên quy chuẩn kỹ thuật đã chốt).
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">CÂU 3</span> Với RFP, hợp đồng được trao cho giải pháp tốt nhất, không nhất thiết là giá thấp nhất [2]. Điểm này gần với ưu điểm nào của phương pháp mua trực tiếp và đàm phán?</div>
+      <div class="qa-a">
+        <strong>Trả lời:</strong><br>
+        Điểm này tương đồng với ưu điểm: <strong>Cùng tìm giải pháp tối ưu thay vì chỉ mặc cả trên một phương án cố định</strong>. Người mua chấp nhận trả mức giá tương xứng để nhận được giải pháp kỹ thuật ưu việt, đột phá, mang lại giá trị sử dụng lâu dài và giảm tổng chi phí vận hành (TCO), thay vì chỉ chăm chăm chọn sản phẩm rẻ nhất nhưng chất lượng kém.
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">CÂU 4</span> Hợp đồng nguyên tắc và đơn hàng bao giảm được loại chi phí nào cho doanh nghiệp? Nêu một rủi ro khi cam kết sản lượng (có thể đọc thêm [8], Annex XV).</div>
+      <div class="qa-a">
+        <strong>Trả lời:</strong><br>
+        • <strong>Loại chi phí giảm được:</strong> Giảm <strong>Chi phí giao dịch hành chính (Transaction costs)</strong>. Doanh nghiệp chỉ phải thẩm định, thương thảo và ký hợp đồng 1 lần duy nhất trong năm, không phải lặp lại quy trình giấy tờ mỗi tuần/mỗi tháng.<br>
+        • <strong>Rủi ro khi cam kết sản lượng:</strong> Nếu thị trường biến động tiêu cực, nhu cầu sản xuất thực tế sụt giảm khiến doanh nghiệp không thể tiêu thụ hết sản lượng đã cam kết với nhà cung cấp, doanh nghiệp sẽ đối mặt với nguy cơ <em>bị phạt vi phạm cam kết, phải đền bù chi phí lưu kho hoặc bị hủy đơn giá ưu đãi</em>.
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">CÂU 5</span> Luật Đấu thầu [4] có những hình thức lựa chọn nhà thầu nào? Hình thức nào gần với đấu thầu cạnh tranh, hình thức nào gần với mua trực tiếp và đàm phán?</div>
+      <div class="qa-a">
+        <strong>Trả lời:</strong><br>
+        • Luật Đấu thầu 22/2023 có 9 hình thức (Điều 20-28): Đấu thầu rộng rãi, đấu thầu hạn chế, chỉ định thầu, chào hàng cạnh tranh, mua sắm trực tiếp, tự thực hiện, tham gia của cộng đồng, đàm phán giá, trường hợp đặc biệt.<br>
+        • <strong>Gần với Đấu thầu cạnh tranh:</strong> <em>Đấu thầu rộng rãi (Đ20), Đấu thầu hạn chế (Đ21), Chào hàng cạnh tranh (Đ23)</em>.<br>
+        • <strong>Gần với Mua trực tiếp & Đàm phán:</strong> <em>Chỉ định thầu (Đ22), Mua sắm trực tiếp (Đ24), Đàm phán giá (Đ27)</em>.
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">CÂU 6</span> Theo [3] mục 13, thu mua điện tử gồm những công cụ nào? Vì sao chúng không được xếp thành một phương pháp mua thứ năm?</div>
+      <div class="qa-a">
+        <strong>Trả lời:</strong><br>
+        • <strong>Các công cụ E-procurement:</strong> e-Notice (đăng thông báo mời thầu), e-Tendering (nộp hồ sơ thầu điện tử), e-Auction / e-Reverse Auction (đấu giá ngược trực tuyến), e-Catalog (danh mục mua sắm điện tử), e-Invoicing (hóa đơn điện tử).<br>
+        • <strong>Vì sao không phải là phương pháp thứ 5:</strong> Vì công nghệ không làm thay đổi bản chất của quan hệ mua bán. Cho dù nộp báo giá qua giấy hay qua cổng web, bản chất kinh tế vẫn là "Báo giá cạnh tranh". E-procurement chỉ là <strong>phương tiện kỹ thuật</strong> giúp quy trình diễn ra nhanh hơn, chính xác hơn và minh bạch hơn.
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">CÂU 7</span> Theo [3] mục 5.2, xác định yêu cầu gồm những việc gì? Vì sao việc này khó hơn khi mua dịch vụ, và phạm vi công việc (SOW), thỏa thuận mức dịch vụ (SLA) giúp gì?</div>
+      <div class="qa-a">
+        <strong>Trả lời:</strong><br>
+        • <strong>Xác định yêu cầu gồm:</strong> Phân tích nhu cầu sử dụng thực tế, nghiên cứu khả năng cung ứng của thị trường, xác định tiêu chuẩn kỹ thuật/tính năng, và dự toán ngân sách.<br>
+        • <strong>Khó hơn khi mua dịch vụ:</strong> Vì dịch vụ có tính chất <em>vô hình, không đồng nhất, không thể lưu kho và không thể kiểm định vật lý trước khi sử dụng</em>.<br>
+        • <strong>Vai trò của SOW & SLA:</strong> SOW đóng vai trò như "bản vẽ thi công" xác định rõ ranh giới các công việc phải làm và sản phẩm bàn giao; SLA đóng vai trò là "thước đo chất lượng" với các tiêu chí định lượng rõ ràng giúp người mua căn cứ để nghiệm thu hoặc phạt hợp đồng.
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">CÂU 8</span> Vì sao mua sai trong doanh nghiệp thương mại để lại hậu quả khác với doanh nghiệp sản xuất?</div>
+      <div class="qa-a">
+        <strong>Trả lời:</strong><br>
+        • <strong>Doanh nghiệp thương mại (Siêu thị/bán lẻ):</strong> Mua để bán lại nguyên trạng. Mua sai (mua sai mẫu mã thị hiếu, mua quá nhiều) sẽ dẫn tới hàng hóa <em>ứ đọng trong kho, hết hạn sử dụng, buộc phải giảm giá xả hàng hoặc tiêu hủy</em> $ightarrow$ Ăn mòn trực tiếp vào dòng tiền và lợi nhuận thuần.<br>
+        • <strong>Doanh nghiệp sản xuất:</strong> Mua nguyên vật liệu để đưa vào dây chuyền. Mua sai quy cách phẩm chất sẽ làm <em>hỏng dây chuyền, tạo ra hàng loạt sản phẩm lỗi, hoặc gây dừng máy đột ngột</em> $ightarrow$ Gây tổn thất khổng lồ về chi phí vận hành nhà máy và uy tín thương hiệu.
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">CÂU 9</span> So sánh thu mua khu vực công và khu vực tư theo năm tiêu chí: mục tiêu, mức tự do chọn nhà cung cấp, quy trình, tốc độ, khả năng xây dựng quan hệ đối tác. Có thể dùng [4] hoặc [7] để minh họa.</div>
+      <div class="qa-a">
+        <strong>Trả lời:</strong><br>
+        1. <strong>Mục tiêu:</strong> Khu vực công nhắm tới phục vụ lợi ích công cộng, minh bạch, liêm chính; Khu vực tư nhắm tới tối đa hóa lợi nhuận, tối ưu chi phí và tăng sức cạnh tranh.<br>
+        2. <strong>Mức tự do chọn NCC:</strong> Khu vực công bị trói buộc nghiêm ngặt bởi Luật Đấu thầu (chỉ được chọn bên đáp ứng đúng hồ sơ mời thầu); Khu vực tư hoàn toàn tự do chỉ định NCC theo sở thích, uy tín hoặc quan hệ thương mại.<br>
+        3. <strong>Quy trình:</strong> Khu vực công cực kỳ phức tạp, nhiều bước phê duyệt, phải lưu trữ hồ sơ phục vụ kiểm toán; Khu vực tư tinh gọn, linh hoạt tùy biến.<br>
+        4. <strong>Tốc độ:</strong> Khu vực công chậm (thường mất nhiều tháng); Khu vực tư nhanh (có thể quyết định trong vài giờ đến vài ngày).<br>
+        5. <strong>Quan hệ đối tác:</strong> Khu vực công khó xây dựng quan hệ đối tác dài hạn linh hoạt (vì hết hạn hợp đồng thường phải tổ chức đấu thầu lại từ đầu); Khu vực tư dễ dàng ký thỏa thuận hợp tác chiến lược nhiều năm.
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">CÂU 10</span> Theo Mogre và cộng sự [5], vai trò của thu mua đã thay đổi thế nào? Đặt bốn giai đoạn của Reck và Long cạnh bốn giai đoạn ở mục 3.4 và chỉ ra chỗ giống, chỗ khác.</div>
+      <div class="qa-a">
+        <strong>Trả lời:</strong><br>
+        • <strong>Sự thay đổi:</strong> Chuyển từ một <em>chức năng tác nghiệp đơn thuần (clerical function)</em> chuyên đi đặt hàng thụ động sang một <em>quá trình liên chức năng gắn liền với chiến lược sống còn (strategic driver)</em> của công ty.<br>
+        • <strong>Đối chiếu 4 giai đoạn:</strong> 
+          - Giai đoạn 1 (Passive) = Phản ứng / Hành chính.<br>
+          - Giai đoạn 2 (Independent) = Thương mại / Hiệu quả (tập trung ép giá mua).<br>
+          - Giai đoạn 3 (Supportive) = Phối hợp / Hỗ trợ (lập nhóm liên chức năng, nhìn TCO).<br>
+          - Giai đoạn 4 (Integrative) = Chiến lược / Tích hợp (tạo lợi thế cạnh tranh).<br>
+        Bốn giai đoạn này trùng khớp hoàn toàn về bản chất, chỉ khác nhau ở cách diễn đạt thuật ngữ giữa tiếng Anh và bản Việt hóa trong giáo trình.
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">CÂU 11</span> Vì sao doanh nghiệp không cần đưa mọi nhóm hàng lên giai đoạn chiến lược? Muốn chuyển từ giai đoạn 2 lên giai đoạn 3, ban lãnh đạo phải quyết định điều gì?</div>
+      <div class="qa-a">
+        <strong>Trả lời:</strong><br>
+        • <strong>Vì sao không cần đưa mọi mặt hàng lên chiến lược:</strong> Nguồn lực của doanh nghiệp (nhân lực, thời gian, chi phí quản lý) luôn có hạn. Những nhóm hàng giá trị thấp, rủi ro nguồn cung thấp, dễ thay thế (như bút bi, giấy in, ốc vít) nếu đem lập nhóm liên chức năng hay đàm phán hợp tác chiến lược sẽ là sự lãng phí tài nguyên khủng khiếp.<br>
+        • <strong>Quyết định của Ban lãnh đạo để lên Cấp 3:</strong> Ban lãnh đạo phải <strong>thay đổi cơ chế quyền hạn và thước đo đánh giá hiệu quả (KPIs)</strong>. Phải bãi bỏ cơ chế đánh giá thành tích thu mua chỉ bằng % giảm giá mua đơn thuần, chuyển sang trao quyền cho đội ngũ thu mua thành lập nhóm liên chức năng và đánh giá dựa trên <strong>Tổng chi phí sở hữu (TCO)</strong>.
+      </div>
+    </div>
+  </section>
+
+  <!-- PHẦN 8: PHÂN TÍCH 11 TÌNH HUỐNG THỰC HÀNH -->
+  <section id="giai-11-tinh-huong" class="card">
+    <div class="card-header">
+      <h2 class="card-title">🎯 8. Phân Tích Chuyên Sâu 11 Tình Huống Tự Kiểm Tra (Mục 7)</h2>
+      <span class="card-badge">Mô phỏng 100% đề thi trắc nghiệm</span>
+    </div>
+    <p>Các tình huống này mô phỏng chính xác dạng câu hỏi sẽ xuất hiện trong 20 câu tình huống của bài kiểm tra:</p>
+
+    <h3>Phần A: Chọn phương pháp mua hàng phù hợp</h3>
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">A1</span> Nhà máy cần mua 2.000 tấn thép tấm theo tiêu chuẩn kỹ thuật đã xác định rõ; thị trường có nhiều nhà cung cấp đủ năng lực?</div>
+      <div class="qa-a">
+        $ightarrow$ <strong>CHỌN: Đấu thầu / Báo giá cạnh tranh (Competitive Bidding / RFQ / ITB)</strong><br>
+        <em>Phân tích logic:</em> Đủ cả 2 điều kiện tiên quyết: (1) Đặc tả kỹ thuật đã rõ ràng (2.000 tấn thép chuẩn); (2) Thị trường có tính cạnh tranh cao (nhiều NCC đủ năng lực). Đấu thầu công khai sẽ giúp nhà máy chọn được mức giá tốt nhất.
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">A2</span> Doanh nghiệp cần phát triển một linh kiện mới theo thiết kế riêng. Chỉ hai nhà cung cấp có năng lực công nghệ, và doanh nghiệp muốn họ góp ý thiết kế để giảm chi phí?</div>
+      <div class="qa-a">
+        $ightarrow$ <strong>CHỌN: Mua trực tiếp và đàm phán (Direct Sourcing & Negotiation / RFP)</strong><br>
+        <em>Phân tích logic:</em> Hàng đặc thù, thiết kế mới, số lượng nhà cung ứng hạn chế (chỉ có 2 bên) và mục tiêu là "cùng tìm giải pháp tối ưu thiết kế". Nếu tổ chức đấu thầu trong trường hợp này chỉ mang tính hình thức và không đem lại giá trị sáng tạo.
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">A3</span> Thùng carton đóng gói dùng hằng tuần, quy cách ổn định, nhu cầu cả năm dự báo được?</div>
+      <div class="qa-a">
+        $ightarrow$ <strong>CHỌN: Hợp đồng nguyên tắc và đơn hàng bao (Blanket Purchase Order)</strong><br>
+        <em>Phân tích logic:</em> Hàng hóa tiêu hao liên tục hàng tuần, quy cách không đổi. Không thể mỗi tuần lại làm một hợp đồng mới (rất tốn chi phí giao dịch). Ký hợp đồng khung chốt giá cho cả năm, khi nào dùng chỉ việc phát lệnh giao hàng.
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">A4</span> Năm công ty thành viên của một tập đoàn tự mua cùng một loại dầu nhớt công nghiệp với mức giá khác nhau. Tập đoàn đã có dữ liệu chi tiêu hợp nhất?</div>
+      <div class="qa-a">
+        $ightarrow$ <strong>CHỌN: Mua tập trung theo nhóm hàng (Centralized Category Sourcing)</strong><br>
+        <em>Phân tích logic:</em> Nhu cầu cùng loại xuất hiện ở nhiều đơn vị và tập đoàn đã sở hữu điều kiện tiên quyết là "dữ liệu chi tiêu hợp nhất". Gộp nhu cầu của 5 công ty thành viên lại sẽ tạo ra khối lượng mua khổng lồ, ép nhà sản xuất dầu nhớt phải chiết khấu mức giá tốt nhất.
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">A5</span> Một doanh nghiệp chuyển việc gửi yêu cầu báo giá văn phòng phẩm lên một nền tảng trực tuyến. Đây có phải phương pháp mua mới không?</div>
+      <div class="qa-a">
+        $ightarrow$ <strong>CHỌN: KHÔNG PHẢI PHƯƠNG PHÁP MỚI.</strong><br>
+        <em>Phân tích logic:</em> Phương pháp bản chất vẫn là "Yêu cầu báo giá cạnh tranh". Nền tảng trực tuyến chỉ là công cụ thu mua điện tử (E-procurement) giúp quá trình thực hiện nhanh gọn và minh bạch hơn.
+      </div>
+    </div>
+
+    <h3>Phần B: Xác định giai đoạn trưởng thành của chức năng thu mua</h3>
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">B1</span> Bộ phận mua hàng nhận yêu cầu từ các phòng, hỏi giá rồi đặt hàng; chỉ tiêu đánh giá là số đơn hàng xử lý đúng thủ tục?</div>
+      <div class="qa-a">
+        $ightarrow$ <strong>CHỌN: Giai đoạn 1 (Phản ứng / Bị động - Passive)</strong><br>
+        <em>Dấu hiệu nhận biết:</em> Hoạt động sự vụ, thụ động chờ phòng ban yêu cầu; đo lường thành tích thuần túy bằng "xử lý đúng thủ tục giấy tờ".
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">B2</span> Doanh nghiệp đã chuẩn hóa quy trình, mua tập trung một số nhóm hàng, báo cáo hằng quý mức tiết kiệm so với giá năm trước; nhà cung cấp thường xuyên bị thay để ép giá?</div>
+      <div class="qa-a">
+        $ightarrow$ <strong>CHỌN: Giai đoạn 2 (Thương mại / Độc lập - Independent)</strong><br>
+        <em>Dấu hiệu nhận biết:</em> Đã chuẩn hóa và tập trung hóa nhưng thước đo duy nhất là "tiết kiệm giá mua so với năm trước"; tư duy đối đầu với nhà cung cấp ("thường xuyên bị thay để ép giá").
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">B3</span> Thu mua lập nhóm liên chức năng với kỹ thuật và chất lượng cho từng nhóm hàng, đánh giá nhà cung cấp theo tổng chi phí sở hữu, ký hợp đồng dài hạn với nhà cung cấp chủ chốt?</div>
+      <div class="qa-a">
+        $ightarrow$ <strong>CHỌN: Giai đoạn 3 (Hỗ trợ / Phối hợp - Supportive)</strong><br>
+        <em>Dấu hiệu nhận biết:</em> Xuất hiện "nhóm liên chức năng", đánh giá theo "Tổng chi phí sở hữu (TCO)", xây dựng "quan hệ đối tác dài hạn".
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">B4</span> Giám đốc thu mua tham gia hội đồng chiến lược, góp ý quyết định tự làm hay mua ngoài, cùng nhà cung cấp chiến lược phát triển sản phẩm mới và theo dõi rủi ro nguồn cung?</div>
+      <div class="qa-a">
+        $ightarrow$ <strong>CHỌN: Giai đoạn 4 (Chiến lược / Tích hợp - Integrative)</strong><br>
+        <em>Dấu hiệu nhận biết:</em> Thu mua có chân trong "hội đồng chiến lược", quyết định "tự làm hay mua ngoài (make-or-buy)", cùng NCC nghiên cứu sản phẩm mới và quản trị rủi ro chuỗi cung ứng.
+      </div>
+    </div>
+
+    <h3>Phần C: Vận dụng so sánh loại hình tổ chức</h3>
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">C1</span> Một chuỗi siêu thị và một nhà máy chế biến thực phẩm cùng mua sữa tươi. Mỗi bên đặt trọng tâm quản trị vào điều gì?</div>
+      <div class="qa-a">
+        $ightarrow$ <strong>Chuỗi siêu thị (Doanh nghiệp Thương mại):</strong> Mua để bán lại cho người tiêu dùng. Trọng tâm sống còn là <em>dự báo nhu cầu, tốc độ vòng quay hàng tồn kho và hạn dùng (shelf-life)</em>. Nếu mua thừa, sữa hết hạn sẽ biến thành hàng hủy, gây lỗ vốn.<br>
+        $ightarrow$ <strong>Nhà máy chế biến (Doanh nghiệp Sản xuất):</strong> Mua sữa tươi làm nguyên liệu sản xuất sữa chua, bánh kẹo. Trọng tâm là <em>chỉ tiêu chất lượng đầu vào (độ béo, vi sinh), tính liên tục của nguồn cung (xe bồn cấp sữa đúng giờ) và Tổng chi phí sở hữu (TCO)</em> gắn liền với quan hệ dài hạn với các nông trại bò sữa.
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="qa-q"><span class="qa-q-num">C2</span> Một bệnh viện công và một bệnh viện tư cùng cần mua một máy chụp cắt lớp (CT Scanner). Quá trình mua của hai bên khác nhau ở những điểm nào?</div>
+      <div class="qa-a">
+        $ightarrow$ <strong>Bệnh viện công:</strong> Tiêu tiền ngân sách nhà nước $ightarrow$ <em>Bắt buộc phải áp dụng Luật Đấu thầu số 22/2023</em>. Quy trình phải công khai, lập tổ chuyên gia chấm thầu, thời gian thẩm định phê duyệt kéo dài (3-6 tháng), phải tuân thủ nghiêm ngặt hồ sơ mời thầu.<br>
+        $ightarrow$ <strong>Bệnh viện tư:</strong> Tiêu vốn tư nhân $ightarrow$ <em>Hoàn toàn tự do chọn đối tác và thương lượng</em>. Hội đồng quản trị có thể trực tiếp mời các hãng hàng đầu (GE Healthcare, Siemens) đến đàm phán về giá, dịch vụ bảo trì định kỳ và công nghệ mới. Quyết định mua sắm diễn ra rất nhanh và linh hoạt.
+      </div>
+    </div>
+  </section>
+
+  <!-- PHẦN 9: TỪ ĐIỂN THUẬT NGỮ -->
+  <section id="tu-dien-anh-viet" class="card">
+    <div class="card-header">
+      <h2 class="card-title">📖 9. Bảng Từ Điển Thuật Ngữ Anh – Việt Dành Cho Phòng Thi</h2>
+      <span class="card-badge">Mục 8 trong PDF</span>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 35%;">Thuật ngữ tiếng Việt</th>
+            <th style="width: 35%;">Thuật ngữ tiếng Anh</th>
+            <th style="width: 30%;">Ký hiệu / Viết tắt phổ biến</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Đấu thầu cạnh tranh</td><td>Competitive Bidding / Tendering</td><td>—</td></tr>
+          <tr><td>Yêu cầu báo giá</td><td>Request for Quotation</td><td><code>RFQ</code></td></tr>
+          <tr><td>Thư mời thầu tiêu chuẩn</td><td>Invitation to Bid</td><td><code>ITB</code></td></tr>
+          <tr><td>Yêu cầu đề xuất giải pháp</td><td>Request for Proposal</td><td><code>RFP</code></td></tr>
+          <tr><td>Thư bày tỏ quan tâm</td><td>Request for Expression of Interest</td><td><code>REOI</code></td></tr>
+          <tr><td>Đơn hàng bao / Hợp đồng nguyên tắc</td><td>Blanket Purchase Order</td><td><code>BPO / Blanket Order</code></td></tr>
+          <tr><td>Thỏa thuận khung / Hợp đồng khung</td><td>Framework Agreement / Long-term Agreement</td><td><code>LTA</code></td></tr>
+          <tr><td>Mua sắm tập trung</td><td>Centralized Purchasing / Procurement</td><td>—</td></tr>
+          <tr><td>Mua sắm phân tán</td><td>Decentralized Purchasing</td><td>—</td></tr>
+          <tr><td>Thu mua điện tử</td><td>Electronic Procurement</td><td><code>e-Procurement</code></td></tr>
+          <tr><td>Đấu giá ngược điện tử</td><td>e-Reverse Auction</td><td><code>e-RA</code></td></tr>
+          <tr><td>Phạm vi công việc (mua dịch vụ)</td><td>Statement of Work</td><td><code>SOW</code></td></tr>
+          <tr><td>Cam kết mức dịch vụ</td><td>Service Level Agreement</td><td><code>SLA</code></td></tr>
+          <tr><td>Mua sắm công</td><td>Public Procurement</td><td>—</td></tr>
+          <tr><td>Mô hình trưởng thành thu mua</td><td>Procurement Maturity Model</td><td>—</td></tr>
+          <tr><td>Tổng chi phí sở hữu</td><td>Total Cost of Ownership</td><td><code>TCO</code></td></tr>
+          <tr><td>Nhóm liên chức năng</td><td>Cross-functional Team</td><td><code>CFT</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>

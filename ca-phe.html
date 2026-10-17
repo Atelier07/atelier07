@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cà phê — từ quả đến tách</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   CÀ PHÊ — editorial deck
+   Fixed 16:9 stage (1920x1080) scaled by JS.
+   Palette: cream paper, espresso ink, single roast accent.
+   Slide types vary: cover · timeline · chart · chart · table · close.
+   ============================================================ */
+:root{
+  --paper:#f2ead9;      --paper-2:#f9f4ea;   --paper-3:#e9dfc9;
+  --ink:#2a1c14;        --ink-soft:#4d3a2c;  --muted:#8c7a67;
+  --line:#d8c7ac;       --line-soft:#e6d9c1;
+  --accent:#a8501f;     --accent-soft:#c98a48; --berry:#7a3346;
+  --serif:"Fraunces", Georgia, serif;
+  --sans:"Be Vietnam Pro", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#14100c;overflow:hidden;font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
+
+#stage{position:absolute;top:50%;left:50%;width:1920px;height:1080px;transform-origin:center center;background:var(--paper)}
+
+.slide{position:absolute;inset:0;width:1920px;height:1080px;padding:92px 120px;opacity:0;visibility:hidden;transition:opacity .5s ease;overflow:hidden}
+.slide.active{opacity:1;visibility:visible}
+.slide::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.32;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E")}
+
+/* ---- helpers ---- */
+.eyebrow{font-family:var(--mono);font-size:18px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:500;display:flex;align-items:center;gap:15px}
+.eyebrow::before{content:"";width:32px;height:2px;background:var(--accent);display:block}
+.snum{position:absolute;top:92px;right:120px;font-family:var(--mono);font-size:18px;color:var(--muted);letter-spacing:.1em}
+.snum b{color:var(--ink);font-weight:600}
+.h2{font-family:var(--serif);font-weight:400;font-size:62px;letter-spacing:-.015em;line-height:1.05;margin-top:18px}
+.source-tag{position:absolute;left:120px;bottom:64px;font-family:var(--mono);font-size:15px;color:var(--muted);max-width:1400px;line-height:1.5}
+
+/* ============================================================ COVER */
+#s1{background:var(--paper-2)}
+.cov{display:grid;grid-template-columns:1fr 660px;gap:50px;height:100%;align-items:center}
+.cov h1{font-family:var(--serif);font-weight:300;font-size:172px;line-height:.9;letter-spacing:-.025em;margin:30px 0 0}
+.cov h1 em{font-style:italic;color:var(--accent)}
+.cov .lede{font-size:28px;line-height:1.5;color:var(--ink-soft);max-width:820px;margin-top:32px}
+.cov .lede b{color:var(--ink)}
+.cov .rule{height:1px;background:var(--line);margin:42px 0 24px}
+.cov .meta{display:flex;gap:52px;font-family:var(--mono);font-size:16px;color:var(--muted)}
+.cov .meta b{display:block;color:var(--ink);font-family:var(--sans);font-weight:600;font-size:20px;margin-top:7px}
+.cov-art{position:relative;height:820px}
+
+/* ============================================================ TIMELINE */
+#s2{background:var(--paper)}
+.tl-head{display:flex;justify-content:space-between;align-items:flex-end}
+.tl-lede{font-size:21px;color:var(--ink-soft);max-width:540px;text-align:right;line-height:1.5}
+
+/* ============================================================ ROAST */
+#s3{background:var(--paper-2)}
+.roast{display:grid;grid-template-columns:1fr 560px;gap:70px;margin-top:26px;align-items:start}
+.comp h4{font-size:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-family:var(--mono);margin-bottom:22px}
+.comp li{list-style:none;padding:18px 0 18px 22px;border-top:1px solid var(--line);position:relative;font-size:19px;line-height:1.5;color:var(--ink-soft)}
+.comp li::before{content:"";position:absolute;left:0;top:26px;width:8px;height:8px;background:var(--accent);border-radius:50%}
+.comp li b{color:var(--ink);font-weight:600}
+.comp li span{display:block;font-family:var(--mono);font-size:14px;color:var(--muted);margin-top:3px}
+
+/* ============================================================ CAFFEINE */
+#s4{background:var(--paper)}
+.caf{display:grid;grid-template-columns:1fr 520px;gap:80px;margin-top:32px;align-items:start}
+.drink{display:grid;grid-template-columns:250px 1fr 96px;align-items:center;gap:6px;margin-bottom:20px}
+.drink .nm{font-size:19px;font-weight:500;color:var(--ink-soft)}
+.drink .nm span{font-family:var(--mono);font-size:13px;color:var(--muted);display:block}
+.drink .track{height:26px;background:var(--paper-3);border-radius:3px;overflow:hidden}
+.drink .track i{display:block;height:100%;background:var(--ink);border-radius:3px}
+.drink .track i.acc{background:var(--accent)}
+.drink .val{font-family:var(--mono);font-size:20px;font-weight:600;text-align:right;color:var(--ink)}
+.drink .val.acc{color:var(--accent)}
+.caf-quote{border-left:3px solid var(--accent);padding-left:30px}
+.caf-quote .big{font-family:var(--serif);font-size:104px;font-weight:400;line-height:1;letter-spacing:-.02em;color:var(--accent)}
+.caf-quote .u{font-size:20px;color:var(--ink-soft);margin-top:6px}
+.caf-quote p{font-size:20px;line-height:1.55;color:var(--ink-soft);margin-top:30px}
+.caf-quote p b{color:var(--ink)}
+.caf-facts{margin-top:36px;border-top:1px solid var(--line);padding-top:22px}
+.caf-facts div{display:flex;justify-content:space-between;font-size:18px;padding:11px 0;border-bottom:1px solid var(--line-soft)}
+.caf-facts span{color:var(--muted);font-family:var(--mono);font-size:16px}
+.caf-facts b{color:var(--ink);font-weight:600}
+
+/* ============================================================ TABLE */
+#s5{background:var(--paper-2)}
+table.brew{width:100%;border-collapse:collapse;margin-top:34px}
+table.brew th,table.brew td{text-align:left;padding:22px 20px;border-bottom:1.5px solid var(--line);vertical-align:top}
+table.brew thead th{font-family:var(--mono);font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;border-bottom:2.5px solid var(--ink);padding-bottom:16px}
+table.brew td{font-size:19px;color:var(--ink-soft);line-height:1.4}
+table.brew td.name{font-family:var(--serif);font-size:27px;color:var(--ink);font-weight:500}
+table.brew td.name span{display:block;font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:4px;letter-spacing:.04em}
+table.brew tr:hover td{background:rgba(168,80,31,.05)}
+.tag{display:inline-block;font-family:var(--mono);font-size:13px;padding:3px 10px;border-radius:20px;border:1px solid var(--line);color:var(--muted)}
+.tag.hi{border-color:var(--accent);color:var(--accent)}
+
+/* ============================================================ CLOSE */
+#s6{background:var(--ink);color:var(--paper)}
+#s6::after{opacity:.18}
+.close{display:grid;grid-template-columns:1fr 540px;gap:90px;height:100%;align-items:center}
+.close .q{font-family:var(--serif);font-size:74px;font-weight:300;line-height:1.14;letter-spacing:-.02em}
+.close .q em{font-style:italic;color:var(--accent-soft)}
+.close .note{margin-top:42px;font-size:21px;line-height:1.6;color:#cdbfa9;max-width:900px}
+.src{border-left:1px solid #4a3b2e;padding-left:32px}
+.src .h{font-family:var(--mono);font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:#8f7d68;margin-bottom:22px}
+.src li{list-style:none;font-family:var(--mono);font-size:15.5px;line-height:1.5;color:#b9a892;padding:11px 0;border-bottom:1px solid #3b2e23}
+.src li b{color:var(--paper);font-weight:500}
+
+/* ---- nav ---- */
+#nav{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);display:flex;gap:12px;z-index:50}
+#nav button{width:11px;height:11px;border-radius:50%;border:none;cursor:pointer;background:rgba(255,255,255,.3);transition:all .25s}
+#nav button.on{background:#c98a48;transform:scale(1.3)}
+#hint{position:fixed;right:22px;bottom:20px;font-family:var(--mono);font-size:12px;color:rgba(255,255,255,.33);z-index:50}
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- ================= SLIDE 1 — COVER ================= -->
+  <section class="slide active" id="s1">
+    <div class="snum"><b>01</b> / 06</div>
+    <div class="cov">
+      <div>
+        <div class="eyebrow">Thực phẩm · Khoa học</div>
+        <h1>Cà phê —<br>từ <em>quả</em><br>đến tách</h1>
+        <p class="lede">Một tách cà phê chứa hơn <b>800 hợp chất thơm</b>, đi qua ba lục địa, và chỉ được định hình trong <b>12 phút rang</b>. Đây là hành trình đó.</p>
+        <div class="rule"></div>
+        <div class="meta">
+          <div>Loài chính<b>Arabica &amp; Robusta</b></div>
+          <div>Nhiệt rang<b>200 – 225°C</b></div>
+          <div>Caffeine<b>0 – 150 mg / tách</b></div>
+        </div>
+      </div>
+      <div class="cov-art">
+        <!-- coffee ring stain + beans -->
+        <svg viewBox="0 0 660 820" width="660" height="820" fill="none">
+          <defs>
+            <filter id="organic" x="-20%" y="-20%" width="140%" height="140%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.012 0.02" numOctaves="3" seed="7" result="t"/>
+              <feDisplacementMap in="SourceGraphic" in2="t" scale="26"/>
+            </filter>
+            <radialGradient id="ring" cx="50%" cy="50%" r="50%">
+              <stop offset="72%" stop-color="#a8501f" stop-opacity="0"/>
+              <stop offset="90%" stop-color="#a8501f" stop-opacity=".5"/>
+              <stop offset="100%" stop-color="#a8501f" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <!-- main stain ring -->
+          <g filter="url(#organic)" opacity=".85">
+            <ellipse cx="330" cy="360" rx="245" ry="235" stroke="url(#ring)" stroke-width="34" fill="none"/>
+            <ellipse cx="330" cy="360" rx="205" ry="196" stroke="#a8501f" stroke-opacity=".18" stroke-width="14" fill="none"/>
+          </g>
+          <!-- beans -->
+          <g fill="#2a1c14">
+            <g transform="translate(120 620) rotate(24)">
+              <ellipse rx="46" ry="30"/><path d="M-46 0 Q0 -15 46 0" stroke="#f2ead9" stroke-width="5" fill="none"/>
+            </g>
+            <g transform="translate(500 660) rotate(-18)">
+              <ellipse rx="46" ry="30"/><path d="M-46 0 Q0 -15 46 0" stroke="#f2ead9" stroke-width="5" fill="none"/>
+            </g>
+            <g transform="translate(420 150) rotate(52)">
+              <ellipse rx="42" ry="27"/><path d="M-42 0 Q0 -13 42 0" stroke="#f2ead9" stroke-width="5" fill="none"/>
+            </g>
+            <g transform="translate(560 420) rotate(8)" opacity=".55">
+              <ellipse rx="38" ry="25"/><path d="M-38 0 Q0 -12 38 0" stroke="#f2ead9" stroke-width="4" fill="none"/>
+            </g>
+          </g>
+          <!-- small annotation -->
+          <text x="330" y="748" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="17" fill="#8c7a67">vết tách cà phê · the coffee ring</text>
+        </svg>
+      </div>
+    </div>
+    <div class="source-tag">Chủ đề: khoa học &amp; lịch sử một tách cà phê</div>
+  </section>
+
+  <!-- ================= SLIDE 2 — TIMELINE ================= -->
+  <section class="slide" id="s2">
+    <div class="snum"><b>02</b> / 06</div>
+    <div class="tl-head">
+      <div>
+        <div class="eyebrow">Lịch sử</div>
+        <h2 class="h2">1.100 năm lan ra toàn cầu</h2>
+      </div>
+      <p class="tl-lede">Từ một truyền thuyết nơi đồi cỏ Ethiopia đến làn sóng cà phê đặc sản — chỉ qua <b>bảy cột mốc</b>.</p>
+    </div>
+
+    <!-- HÌNH DUY NHẤT CỦA BỘ SLIDE: một trục thời gian thật -->
+    <svg viewBox="0 0 1680 470" width="1680" height="470" fill="none" style="margin-top:34px">
+      <!-- baseline -->
+      <line x1="90" y1="190" x2="1610" y2="190" stroke="#2a1c14" stroke-width="2.5"/>
+      <g font-family="IBM Plex Mono, monospace" fill="#8c7a67" font-size="15">
+        <text x="90" y="222">kỷ nguyên</text>
+        <text x="1610" y="222" text-anchor="end">hiện đại</text>
+      </g>
+
+      <!-- stops -->
+      <g>
+        <!-- 1 -->
+        <line x1="120" y1="168" x2="120" y2="212" stroke="#2a1c14" stroke-width="2.5"/>
+        <circle cx="120" cy="190" r="7" fill="#a8501f"/>
+        <text x="120" y="150" text-anchor="middle" font-family="Fraunces, serif" font-size="34" fill="#2a1c14">~850</text>
+        <text x="120" y="262" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="18" font-weight="600" fill="#2a1c14">Kaldi &amp; đàn dê</text>
+        <text x="120" y="288" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="16" fill="#4d3a2c">Truyền thuyết</text>
+        <text x="120" y="310" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="16" fill="#4d3a2c">Ethiopia</text>
+        <!-- 2 -->
+        <line x1="360" y1="168" x2="360" y2="212" stroke="#2a1c14" stroke-width="2.5"/>
+        <circle cx="360" cy="190" r="7" fill="#a8501f"/>
+        <text x="360" y="150" text-anchor="middle" font-family="Fraunces, serif" font-size="34" fill="#2a1c14">~1450</text>
+        <text x="360" y="262" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="18" font-weight="600" fill="#2a1c14">Tu viện Sufi</text>
+        <text x="360" y="288" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="16" fill="#4d3a2c">Cảng Mocha</text>
+        <text x="360" y="310" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="16" fill="#4d3a2c">Yemen</text>
+        <!-- 3 -->
+        <line x1="600" y1="168" x2="600" y2="212" stroke="#2a1c14" stroke-width="2.5"/>
+        <circle cx="600" cy="190" r="7" fill="#a8501f"/>
+        <text x="600" y="150" text-anchor="middle" font-family="Fraunces, serif" font-size="34" fill="#2a1c14">1554</text>
+        <text x="600" y="262" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="18" font-weight="600" fill="#2a1c14">Quán đầu tiên</text>
+        <text x="600" y="288" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="16" fill="#4d3a2c">Istanbul,</text>
+        <text x="600" y="310" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="16" fill="#4d3a2c">Đế chế Ottoman</text>
+        <!-- 4 -->
+        <line x1="840" y1="168" x2="840" y2="212" stroke="#2a1c14" stroke-width="2.5"/>
+        <circle cx="840" cy="190" r="7" fill="#a8501f"/>
+        <text x="840" y="150" text-anchor="middle" font-family="Fraunces, serif" font-size="34" fill="#2a1c14">1650</text>
+        <text x="840" y="262" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="18" font-weight="600" fill="#2a1c14">"Penny university"</text>
+        <text x="840" y="288" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="16" fill="#4d3a2c">Quán cà phê</text>
+        <text x="840" y="310" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="16" fill="#4d3a2c">Oxford, Anh</text>
+        <!-- 5 -->
+        <line x1="1080" y1="168" x2="1080" y2="212" stroke="#2a1c14" stroke-width="2.5"/>
+        <circle cx="1080" cy="190" r="7" fill="#a8501f"/>
+        <text x="1080" y="150" text-anchor="middle" font-family="Fraunces, serif" font-size="34" fill="#2a1c14">1901</text>
+        <text x="1080" y="262" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="18" font-weight="600" fill="#2a1c14">Máy espresso</text>
+        <text x="1080" y="288" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="16" fill="#4d3a2c">Luigi Bezzera</text>
+        <text x="1080" y="310" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="16" fill="#4d3a2c">Milano, Ý</text>
+        <!-- 6 -->
+        <line x1="1320" y1="168" x2="1320" y2="212" stroke="#2a1c14" stroke-width="2.5"/>
+        <circle cx="1320" cy="190" r="7" fill="#a8501f"/>
+        <text x="1320" y="150" text-anchor="middle" font-family="Fraunces, serif" font-size="34" fill="#2a1c14">1938</text>
+        <text x="1320" y="262" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="18" font-weight="600" fill="#2a1c14">Cà phê hòa tan</text>
+        <text x="1320" y="288" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="16" fill="#4d3a2c">Nescafé trình làng</text>
+        <text x="1320" y="310" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="16" fill="#4d3a2c">Thụy Sĩ</text>
+        <!-- 7 -->
+        <line x1="1560" y1="168" x2="1560" y2="212" stroke="#a8501f" stroke-width="3"/>
+        <circle cx="1560" cy="190" r="10" fill="#a8501f"/>
+        <text x="1560" y="150" text-anchor="middle" font-family="Fraunces, serif" font-size="34" fill="#a8501f">2000s</text>
+        <text x="1560" y="262" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="18" font-weight="600" fill="#a8501f">Làn sóng thứ ba</text>
+        <text x="1560" y="288" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="16" fill="#4d3a2c">Cà phê đặc sản,</text>
+        <text x="1560" y="310" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="16" fill="#4d3a2c">truy xuất nguồn gốc</text>
+      </g>
+
+      <!-- context band -->
+      <g>
+        <rect x="90" y="366" width="1520" height="72" rx="6" fill="#e9dfc9"/>
+        <text x="120" y="410" font-family="IBM Plex Mono, monospace" font-size="18" fill="#4d3a2c">900 năm đầu cà phê gắn với tôn giáo &amp; y học. 300 năm sau, nó thành thức uống của quán xá, công xưởng và văn phòng.</text>
+      </g>
+    </svg>
+    <div class="source-tag">Nguồn: lịch sử cà phê phổ thông — British Coffee Association, National Coffee Association, các ghi chép Ottoman.</div>
+  </section>
+
+  <!-- ================= SLIDE 3 — ROAST CURVE ================= -->
+  <section class="slide" id="s3">
+    <div class="snum"><b>03</b> / 06</div>
+    <div class="eyebrow">Hoá học của lửa</div>
+    <h2 class="h2">12 phút định hình toàn bộ hương vị</h2>
+
+    <div class="roast">
+      <!-- roast profile chart -->
+      <svg viewBox="0 0 980 560" width="980" height="545" fill="none">
+        <!-- phase bands -->
+        <rect x="60" y="40"  width="222" height="440" fill="#e9dfc9"/>
+        <rect x="282" y="40" width="278" height="440" fill="#f2ead9"/>
+        <rect x="560" y="40" width="167" height="440" fill="rgba(168,80,31,.10)"/>
+        <!-- gridlines + y labels -->
+        <g stroke="#d8c7ac" stroke-width="1">
+          <line x1="60" y1="480" x2="880" y2="480"/>
+          <line x1="60" y1="370" x2="880" y2="370"/>
+          <line x1="60" y1="260" x2="880" y2="260"/>
+          <line x1="60" y1="150" x2="880" y2="150"/>
+          <line x1="60" y1="40"  x2="880" y2="40"/>
+        </g>
+        <g font-family="IBM Plex Mono, monospace" font-size="15" fill="#8c7a67">
+          <text x="52" y="485" text-anchor="end">80°</text>
+          <text x="52" y="375" text-anchor="end">120°</text>
+          <text x="52" y="265" text-anchor="end">160°</text>
+          <text x="52" y="155" text-anchor="end">200°</text>
+          <text x="52" y="45"  text-anchor="end">240°</text>
+        </g>
+        <!-- x labels -->
+        <g font-family="IBM Plex Mono, monospace" font-size="15" fill="#8c7a67">
+          <text x="60"  y="510">0</text>
+          <text x="223" y="510">4</text>
+          <text x="385" y="510">8</text>
+          <text x="548" y="510">12</text>
+          <text x="710" y="510">16</text>
+          <text x="860" y="510">phút</text>
+        </g>
+        <!-- phase headers -->
+        <g font-family="IBM Plex Mono, monospace" font-size="14" fill="#8c7a67" letter-spacing="1">
+          <text x="171" y="30" text-anchor="middle">LÀM KHÔ</text>
+          <text x="421" y="30" text-anchor="middle">MAILLARD</text>
+          <text x="643" y="30" text-anchor="middle">PHÁT TRIỂN</text>
+        </g>
+
+        <!-- temperature curve -->
+        <polyline points="60,150 143,447 227,370 338,287 450,219 561,161 616,96 671,117 727,100"
+                  stroke="#2a1c14" stroke-width="4" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+        <!-- markers -->
+        <circle cx="143" cy="447" r="7" fill="#f9f4ea" stroke="#2a1c14" stroke-width="3"/>
+        <text x="155" y="440" font-family="IBM Plex Mono, monospace" font-size="15" fill="#2a1c14">điểm đảo chiều ~90°</text>
+        <circle cx="561" cy="161" r="8" fill="#a8501f"/>
+        <text x="510" y="140" font-family="IBM Plex Mono, monospace" font-size="15" fill="#a8501f" font-weight="500">First crack ~196°</text>
+        <line x1="727" y1="100" x2="727" y2="480" stroke="#a8501f" stroke-width="1.5" stroke-dasharray="5 6"/>
+        <text x="712" y="94" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="15" fill="#a8501f">Second crack ~225°</text>
+        <!-- charge marker -->
+        <circle cx="60" cy="150" r="7" fill="#2a1c14"/>
+        <text x="72" y="142" font-family="IBM Plex Mono, monospace" font-size="15" fill="#2a1c14">nạp hạt · 200°</text>
+      </svg>
+
+      <!-- compounds -->
+      <div class="comp">
+        <h4>Điều gì xảy ra bên trong hạt</h4>
+        <ul>
+          <li><b>Phản ứng Maillard</b> ~150°C · Axit amin gặp đường khử, sinh hương bánh mì, hạt rang, caramel.
+            <span>maillard reaction</span></li>
+          <li><b>Caramel hoá</b> 170–200°C · Đường tự cháy, tạo vị ngọt rồi chuyển đắng.
+            <span>caramelization</span></li>
+          <li><b>Axit chlorogenic giảm dần</b> · Càng rang đậm càng ít axit — tách bớt vị chua.
+            <span>chlorogenic acids</span></li>
+          <li><b>Caffeine gần như không đổi</b> · Bền nhiệt, hầu như giữ nguyên qua mọi mức rang.
+            <span>caffeine is heat-stable</span></li>
+          <li><b>Trigonelline phân huỷ</b> · Sinh pyridine (mùi rang) và một phần vitamin B3.
+            <span>trigonelline → niacin</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="source-tag">Nguồn: Perfect Daily Grind · Science of Coffee (Royal Society of Chemistry) · Coffee Chemistry.</div>
+  </section>
+
+  <!-- ================= SLIDE 4 — CAFFEINE ================= -->
+  <section class="slide" id="s4">
+    <div class="snum"><b>04</b> / 06</div>
+    <div class="eyebrow">Caffeine</div>
+    <h2 class="h2">Một chất, nhiều liều lượng</h2>
+
+    <div class="caf">
+      <div>
+        <div class="drink"><div class="nm">Espresso <span>30 ml</span></div><div class="track"><i style="width:63%"></i></div><div class="val">63 mg</div></div>
+        <div class="drink"><div class="nm">Cà phê lọc nhỏ giọt <span>240 ml</span></div><div class="track"><i class="acc" style="width:95%"></i></div><div class="val acc">95 mg</div></div>
+        <div class="drink"><div class="nm">Nước tăng lực <span>250 ml</span></div><div class="track"><i style="width:80%"></i></div><div class="val">80 mg</div></div>
+        <div class="drink"><div class="nm">Cà phê hoà tan <span>240 ml</span></div><div class="track"><i style="width:62%"></i></div><div class="val">62 mg</div></div>
+        <div class="drink"><div class="nm">Trà đen <span>240 ml</span></div><div class="track"><i style="width:47%"></i></div><div class="val">47 mg</div></div>
+        <div class="drink"><div class="nm">Cola <span>355 ml</span></div><div class="track"><i style="width:34%"></i></div><div class="val">34 mg</div></div>
+        <div class="drink"><div class="nm">Trà xanh <span>240 ml</span></div><div class="track"><i style="width:28%"></i></div><div class="val">28 mg</div></div>
+        <div class="drink"><div class="nm">Sô-cô-la đen <span>28 g</span></div><div class="track"><i style="width:23%"></i></div><div class="val">23 mg</div></div>
+        <div class="drink"><div class="nm">Cà phê decaf <span>240 ml</span></div><div class="track"><i style="width:2%"></i></div><div class="val">2 mg</div></div>
+      </div>
+
+      <div class="caf-quote">
+        <div class="big">400</div>
+        <div class="u">mg / ngày — ngưỡng an toàn cho người lớn khoẻ mạnh</div>
+        <p>Tương đương khoảng <b>4 tách cà phê lọc</b> hoặc <b>6 ly espresso</b>. Vượt ngưỡng có thể gây lo âu, mất ngủ, tim đập nhanh.</p>
+        <div class="caf-facts">
+          <div>Thời gian bán rã trong cơ thể <span>~5 giờ</span></div>
+          <div>Đạt nồng độ đỉnh sau khi uống <span>30–60 phút</span></div>
+          <div>Vẫn còn 1/4 liều sau <span>~10 giờ</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="source-tag">Nguồn: FDA · Mayo Clinic. Giá trị mang tính đại diện; liều thực tế thay đổi theo loại hạt, cách pha và khẩu phần.</div>
+  </section>
+
+  <!-- ================= SLIDE 5 — BREWING TABLE ================= -->
+  <section class="slide" id="s5">
+    <div class="snum"><b>05</b> / 06</div>
+    <div class="eyebrow">Thực hành</div>
+    <h2 class="h2">Cùng một hạt, năm cách pha</h2>
+
+    <table class="brew">
+      <thead>
+        <tr>
+          <th style="width:22%">Phương pháp</th>
+          <th style="width:15%">Cỡ xay</th>
+          <th style="width:15%">Nhiệt độ</th>
+          <th style="width:16%">Thời gian</th>
+          <th style="width:14%">Áp suất</th>
+          <th style="width:18%">Kết quả trong tách</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="name">Espresso<span>máy áp suất</span></td>
+          <td>Rất mịn</td><td>~92°C</td><td>25–30 giây</td>
+          <td><span class="tag hi">~9 bar</span></td>
+          <td>Đậm, đặc, có lớp crema vàng nâu</td>
+        </tr>
+        <tr>
+          <td class="name">Pour-over (V60)<span>rót tay</span></td>
+          <td>Mịn vừa</td><td>92–96°C</td><td>2,5–3 phút</td>
+          <td><span class="tag">khí quyển</span></td>
+          <td>Trong, sáng, nhiều tầng hương phức tạp</td>
+        </tr>
+        <tr>
+          <td class="name">French press<span>ngâm ủ</span></td>
+          <td>Thô</td><td>92–96°C</td><td>4 phút</td>
+          <td><span class="tag">khí quyển</span></td>
+          <td>Đầy đặn, nhiều dầu, hơi cặn mịn</td>
+        </tr>
+        <tr>
+          <td class="name">Moka pot<span>bếp ga</span></td>
+          <td>Mịn</td><td>~92°C</td><td>3–5 phút</td>
+          <td><span class="tag hi">~1,5 bar</span></td>
+          <td>Mạnh gần espresso nhưng không crema</td>
+        </tr>
+        <tr>
+          <td class="name">Cold brew<span>ngâm lạnh</span></td>
+          <td>Thô</td><td>~4°C</td><td>12–24 giờ</td>
+          <td><span class="tag">khí quyển</span></td>
+          <td>Êm, ít axit, hậu ngọt dịu kéo dài</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="source-tag">Nguồn: Specialty Coffee Association · James Hoffmann, "The World Atlas of Coffee".</div>
+  </section>
+
+  <!-- ================= SLIDE 6 — CLOSE ================= -->
+  <section class="slide" id="s6">
+    <div class="snum" style="color:#8f7d68"><b style="color:#f9f4ea">06</b> / 06</div>
+    <div class="close">
+      <div>
+        <div class="eyebrow" style="color:#c98a48">Kết</div>
+        <div class="q" style="margin-top:28px">Hương vị không đến từ một bí quyết — nó đến từ <em>hàng trăm phản ứng</em> được sắp đúng thời điểm.</div>
+        <p class="note">Cùng một hạt xanh có thể thành chua sáng hoặc đắng khói, tuỳ vào đường cong nhiệt độ khi rang và cách ta chiết xuất. Hiểu cơ chế, ta điều khiển được tách cà phê — không còn phụ thuộc may mắn.</p>
+      </div>
+      <div class="src">
+        <div class="h">Nguồn</div>
+        <ul>
+          <li><b>FDA</b> — Spilling the Beans: how much caffeine is too much</li>
+          <li><b>Mayo Clinic</b> — Caffeine: how much is too much</li>
+          <li><b>Science of Coffee</b> — Royal Society of Chemistry</li>
+          <li><b>Specialty Coffee Association</b> — Brewing standards</li>
+          <li><b>James Hoffmann</b> — The World Atlas of Coffee</li>
+          <li><b>British Coffee Association</b> — Lịch sử cà phê</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div id="nav"></div>
+<div id="hint">← → · space · chạm để chuyển</div>
+
+<script>
+/* fixed 16:9 stage scaling */
+const stage = document.getElementById('stage');
+function fit(){
+  const s = Math.min(window.innerWidth/1920, window.innerHeight/1080);
+  stage.style.transform = `translate(-50%,-50%) scale(${s})`;
+}
+addEventListener('resize', fit); fit();
+
+/* navigation */
+const slides = [...document.querySelectorAll('.slide')];
+let cur = 0;
+const nav = document.getElementById('nav');
+slides.forEach((_,i)=>{const b=document.createElement('button');b.onclick=()=>go(i);nav.appendChild(b)});
+const dots = [...nav.children];
+function go(i){cur=(i+slides.length)%slides.length;slides.forEach((s,k)=>s.classList.toggle('active',k===cur));dots.forEach((d,k)=>d.classList.toggle('on',k===cur))}
+go(0);
+addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){e.preventDefault();go(cur+1)}
+  if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(cur-1)}
+});
+let sx=null;
+addEventListener('touchstart',e=>sx=e.touches[0].clientX);
+addEventListener('touchend',e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)go(cur+(dx<0?1:-1));sx=null});
+</script>
+</body>
+</html>

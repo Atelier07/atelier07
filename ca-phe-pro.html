@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cà phê — Giải phẫu một tách</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   CÀ PHÊ — GIẢI PHẪU MỘT TÁCH  (v3)
+   12 slides · fixed 16:9 (1920×1080) · chữ lớn, lấp đầy,
+   animation kiểu keyframe (mặc định vẫn hiển thị đủ).
+   ============================================================ */
+:root{
+  --paper:#f1e9d8; --paper-2:#faf5ea; --paper-3:#e7dcc6;
+  --ink:#241610; --ink-soft:#4a3628; --muted:#8a7663;
+  --line:#d6c4a8; --line-soft:#e6d9c1;
+  --accent:#a8501f; --accent-2:#c98a48; --cherry:#9e2b25;
+  --serif:"Fraunces", Georgia, serif;
+  --sans:"Be Vietnam Pro", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#100c09;overflow:hidden;font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
+#stage{position:absolute;top:50%;left:50%;width:1920px;height:1080px;transform-origin:center center;background:var(--paper)}
+
+.slide{position:absolute;inset:0;width:1920px;height:1080px;padding:72px 96px;
+  display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .5s ease;overflow:hidden}
+.slide.active{opacity:1;visibility:visible}
+.slide::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.28;mix-blend-mode:multiply;z-index:9;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E")}
+
+/* ---------- animation: nội dung LUÔN hiển thị; chỉ "nổi lên" khi active ---------- */
+@keyframes rise{from{transform:translateY(26px)}to{transform:none}}
+@keyframes grow{from{width:0}}
+@keyframes draw{from{stroke-dashoffset:var(--len)}to{stroke-dashoffset:0}}
+.anim{opacity:1}
+.slide.active .anim{animation:rise .6s cubic-bezier(.22,1,.36,1) both}
+.slide.active .anim:nth-child(2){animation-delay:.09s}
+.slide.active .anim:nth-child(3){animation-delay:.18s}
+.slide.active .anim:nth-child(4){animation-delay:.27s}
+.slide.active .anim:nth-child(5){animation-delay:.36s}
+.slide.active .anim:nth-child(6){animation-delay:.45s}
+
+/* ---------- helpers ---------- */
+.eyebrow{font-family:var(--mono);font-size:19px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:500;display:flex;align-items:center;gap:14px}
+.eyebrow::before{content:"";width:32px;height:2px;background:var(--accent);display:block}
+.snum{position:absolute;top:38px;right:96px;font-family:var(--mono);font-size:19px;color:var(--muted);letter-spacing:.14em;z-index:10}
+.snum b{color:var(--ink);font-weight:600}
+.h2{font-family:var(--serif);font-weight:400;font-size:70px;letter-spacing:-.015em;line-height:1.04;margin-top:14px}
+.lead{font-size:25px;line-height:1.5;color:var(--ink-soft)}
+.src{font-family:var(--mono);font-size:16px;color:var(--muted);line-height:1.5;margin-top:auto;padding-top:14px}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px}
+.head .right{max-width:560px;text-align:right}
+.body{flex:1;display:grid;gap:64px;margin-top:26px;min-height:0}
+
+/* bars */
+.bar i{width:var(--w);transition:none}
+.slide.active .bar i{animation:grow 1.15s cubic-bezier(.22,1,.36,1) both}
+
+/* ============================================================ COVER */
+#s1{background:radial-gradient(120% 120% at 78% 30%, #fbf6ec 0%, var(--paper) 55%, #e8ddc6 100%)}
+#s1 .body{grid-template-columns:1fr 660px;align-items:center;gap:30px}
+.cov h1{font-family:var(--serif);font-weight:300;font-size:158px;line-height:.9;letter-spacing:-.03em;margin:26px 0 0}
+.cov h1 em{font-style:italic;color:var(--accent)}
+.cov .lede2{font-size:29px;line-height:1.5;color:var(--ink-soft);max-width:900px;margin-top:30px}
+.cov .lede2 b{color:var(--ink)}
+.cov .rule{height:1px;background:var(--line);margin:36px 0 22px}
+.cov .meta{display:flex;gap:52px;font-family:var(--mono);font-size:16px;color:var(--muted)}
+.cov .meta b{display:block;color:var(--ink);font-family:var(--sans);font-weight:600;font-size:23px;margin-top:6px}
+.cov-art{height:100%;display:flex;align-items:center;justify-content:center}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.04);opacity:1}}
+.ring-spin{animation:spin 90s linear infinite;transform-origin:center}
+.ring-breathe{animation:breathe 9s ease-in-out infinite;transform-origin:center}
+
+/* ============================================================ TABLES */
+.dtable{width:100%;border-collapse:collapse}
+.dtable td{padding:15px 0;border-bottom:1px solid var(--line);color:var(--ink-soft);font-size:22px}
+.dtable td:first-child{color:var(--muted);font-family:var(--mono);font-size:18px}
+.dtable td .a{color:var(--accent);font-weight:600;font-size:24px}
+.dtable td .b{color:var(--ink);font-weight:600;font-size:24px}
+.dtable thead td{border-bottom:2px solid var(--ink);padding-bottom:12px;font-family:var(--mono);font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.dtable thead td:nth-child(2){color:var(--accent)}.dtable thead td:nth-child(3){color:var(--ink)}
+
+table.brew{width:100%;border-collapse:collapse}
+table.brew th,table.brew td{text-align:left;padding:24px 18px;border-bottom:1.5px solid var(--line);vertical-align:top}
+table.brew thead th{font-family:var(--mono);font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;border-bottom:2.5px solid var(--ink);padding-bottom:16px}
+table.brew td{font-size:22px;color:var(--ink-soft);line-height:1.4}
+table.brew td.name{font-family:var(--serif);font-size:30px;color:var(--ink);font-weight:500}
+table.brew td.name span{display:block;font-family:var(--mono);font-size:14px;color:var(--muted);margin-top:3px}
+table.brew tr:hover td{background:rgba(168,80,31,.05)}
+.tag{display:inline-block;font-family:var(--mono);font-size:14px;padding:4px 11px;border-radius:20px;border:1px solid var(--line);color:var(--muted)}
+.tag.hi{border-color:var(--accent);color:var(--accent)}
+
+/* ============================================================ CARD GRID */
+.cards{display:grid;gap:20px}
+.card{border:1.5px solid var(--line);border-radius:10px;background:var(--paper-2);padding:26px}
+.card .n{font-family:var(--serif);font-size:66px;font-weight:500;line-height:1;letter-spacing:-.02em;color:var(--accent)}
+.card .t{font-size:20px;line-height:1.45;color:var(--ink-soft);margin-top:12px}
+.card .s{font-family:var(--mono);font-size:14px;color:var(--muted);margin-top:12px}
+
+/* ============================================================ LISTS */
+.why{list-style:none}
+.why li{padding:17px 0 17px 24px;border-top:1px solid var(--line);position:relative;font-size:21px;line-height:1.5;color:var(--ink-soft)}
+.why li::before{content:"";position:absolute;left:0;top:26px;width:8px;height:8px;background:var(--accent);border-radius:50%}
+.why li b{color:var(--ink);font-weight:600}
+.why li span{display:block;font-family:var(--mono);font-size:14px;color:var(--muted);margin-top:2px}
+
+/* ============================================================ BARS (belt + water) */
+.brow,.wrow{display:grid;grid-template-columns:150px 1fr 70px;align-items:center;gap:16px;margin-bottom:18px}
+.brow .bn,.wrow .nm{font-size:19px;font-weight:500;color:var(--ink-soft)}
+.wrow .nm span{display:block;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.btrack,.wrow .track{height:24px;background:var(--paper-3);border-radius:4px;overflow:hidden}
+.btrack i,.wrow .track i{display:block;height:100%;width:var(--w);background:var(--accent);border-radius:4px}
+.btrack i.red{background:var(--cherry)}
+.bv,.wrow .val{font-family:var(--mono);font-size:20px;font-weight:600;text-align:right;color:var(--ink)}
+
+/* ============================================================ CLOSE */
+#s12{background:var(--ink);color:var(--paper)}
+#s12::after{opacity:.16}
+#s12 .body{grid-template-columns:1fr 500px;align-items:center;gap:80px}
+.close .q{font-family:var(--serif);font-size:76px;font-weight:300;line-height:1.12;letter-spacing:-.02em}
+.close .q em{font-style:italic;color:var(--accent-2)}
+.close .note{margin-top:36px;font-size:23px;line-height:1.6;color:#cdbfa9;max-width:900px}
+.srclist{border-left:1px solid #4a3b2e;padding-left:30px}
+.srclist .h{font-family:var(--mono);font-size:16px;letter-spacing:.16em;text-transform:uppercase;color:#8f7d68;margin-bottom:18px}
+.srclist li{list-style:none;font-family:var(--mono);font-size:16px;line-height:1.45;color:#b9a892;padding:11px 0;border-bottom:1px solid #3b2e23}
+.srclist li b{color:var(--paper);font-weight:500}
+
+/* ---------- charts ---------- */
+.chart{width:100%;height:auto;display:block}
+.chart text{font-family:var(--mono)}
+
+/* ---------- nav ---------- */
+#nav{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);display:flex;gap:9px;z-index:99;flex-wrap:wrap;max-width:92vw;justify-content:center}
+#nav button{width:9px;height:9px;border-radius:50%;border:none;cursor:pointer;background:rgba(255,255,255,.28);transition:all .25s}
+#nav button.on{background:#c98a48;transform:scale(1.5)}
+#hint{position:fixed;right:20px;bottom:16px;font-family:var(--mono);font-size:12px;color:rgba(255,255,255,.3);z-index:99}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- ============ 1 · COVER ============ -->
+<section class="slide active" id="s1">
+  <div class="snum"><b>01</b> / 12</div>
+  <div class="body">
+    <div class="cov">
+      <div class="eyebrow anim">Thực phẩm · Hoá học · Văn hoá</div>
+      <h1 class="anim">Giải phẫu<br>một <em>tách</em><br>cà phê</h1>
+      <p class="lede2 anim">Trong một tách có hơn <b>800 hợp chất thơm</b>, 6 lớp của một quả mọng, và hàng trăm phản ứng hoá học — tất cả định hình trong vài phút.</p>
+      <div class="rule"></div>
+      <div class="meta anim">
+        <div>Loài chủ đạo<b>Arabica · Robusta</b></div>
+        <div>Cửa sổ rang<b>196 → 225°C</b></div>
+        <div>Nước trong tách<b>~98%</b></div>
+      </div>
+    </div>
+    <div class="cov-art">
+      <svg viewBox="0 0 700 820" width="640" height="750" fill="none">
+        <defs>
+          <filter id="org" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.011 0.019" numOctaves="3" seed="11" result="t"/>
+            <feDisplacementMap in="SourceGraphic" in2="t" scale="28"/>
+          </filter>
+          <radialGradient id="rg" cx="50%" cy="50%" r="50%">
+            <stop offset="70%" stop-color="#a8501f" stop-opacity="0"/><stop offset="88%" stop-color="#a8501f" stop-opacity=".55"/><stop offset="100%" stop-color="#a8501f" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <g class="ring-spin" filter="url(#org)"><ellipse cx="350" cy="370" rx="245" ry="243" stroke="url(#rg)" stroke-width="42" fill="none"/></g>
+        <g class="ring-breathe">
+          <ellipse cx="350" cy="370" rx="194" ry="190" stroke="#a8501f" stroke-opacity=".22" stroke-width="12" fill="none"/>
+          <ellipse cx="350" cy="370" rx="148" ry="144" stroke="#a8501f" stroke-opacity=".14" stroke-width="6" fill="none"/>
+        </g>
+        <g fill="#241610">
+          <g transform="translate(140 650) rotate(22)"><ellipse rx="54" ry="34"/><path d="M-54 0Q0 -18 54 0" stroke="#f1e9d8" stroke-width="6" fill="none"/></g>
+          <g transform="translate(560 690) rotate(-16)"><ellipse rx="54" ry="34"/><path d="M-54 0Q0 -18 54 0" stroke="#f1e9d8" stroke-width="6" fill="none"/></g>
+          <g transform="translate(470 120) rotate(50)"><ellipse rx="48" ry="30"/><path d="M-48 0Q0 -16 48 0" stroke="#f1e9d8" stroke-width="6" fill="none"/></g>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2 · ARABICA vs ROBUSTA ============ -->
+<section class="slide" id="s2">
+  <div class="snum"><b>02</b> / 12</div>
+  <div class="head">
+    <div><div class="eyebrow anim">Giống loài</div><h2 class="h2 anim">Hai loài, hai số phận</h2></div>
+    <p class="lead anim right">Arabica chiếm ~60% sản lượng vì ngon hơn; Robusta ~40% vì <b>khoẻ hơn và rẻ hơn</b>.</p>
+  </div>
+  <div class="body" style="grid-template-columns:1fr 660px">
+    <div class="anim">
+      <table class="dtable">
+        <thead><tr><td>Chỉ số</td><td>Arabica</td><td>Robusta</td></tr></thead>
+        <tbody>
+          <tr><td>Caffeine</td><td><span class="a">1,2–1,5%</span></td><td><span class="b">2,2–2,7%</span></td></tr>
+          <tr><td>Đường</td><td><span class="a">~8%</span></td><td><span class="b">~4%</span></td></tr>
+          <tr><td>Dầu (lipid)</td><td><span class="a">~15%</span></td><td><span class="b">~10%</span></td></tr>
+          <tr><td>Axit chlorogenic</td><td><span class="a">~6,5%</span></td><td><span class="b">~10%</span></td></tr>
+          <tr><td>Độ cao trồng</td><td><span class="a">800–2.200 m</span></td><td><span class="b">0–800 m</span></td></tr>
+          <tr><td>Kháng sâu bệnh</td><td><span class="a">Thấp</span></td><td><span class="b">Rất cao</span></td></tr>
+          <tr><td>Giá hạt xanh</td><td><span class="a">Cao</span></td><td><span class="b">Thấp</span></td></tr>
+          <tr><td>Trong tách</td><td><span class="a">Chua sáng, thơm</span></td><td><span class="b">Đắng, đậm, gỗ</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="anim" id="radar"></div>
+  </div>
+  <div class="src">Nguồn: ICO · Specialty Coffee Association · phân tích thành phần hạt xanh.</div>
+</section>
+
+<!-- ============ 3 · QUẢ CÀ PHÊ ============ -->
+<section class="slide" id="s3">
+  <div class="snum"><b>03</b> / 12</div>
+  <div class="eyebrow anim">Mặt cắt</div>
+  <h2 class="h2 anim">Sáu lớp vỏ của một hạt</h2>
+  <div class="body" style="grid-template-columns:980px 1fr;align-items:center">
+    <div class="anim">
+      <svg viewBox="0 0 1080 660" class="chart" fill="none">
+        <circle cx="540" cy="330" r="252" fill="#9e2b25"/>
+        <circle cx="540" cy="330" r="226" fill="#b8453c"/>
+        <circle cx="540" cy="330" r="200" fill="#c9a86e"/>
+        <circle cx="540" cy="330" r="174" fill="#e6dcc2"/>
+        <circle cx="540" cy="330" r="150" fill="#cbbf9e"/>
+        <circle cx="540" cy="330" r="120" fill="#2f2318"/>
+        <path d="M540 212 C514 262, 562 280, 536 330 C510 380, 558 398, 540 448" stroke="#f1e9d8" stroke-width="8" fill="none" stroke-linecap="round"/>
+        <path d="M540 212 C514 262, 562 280, 536 330 C510 380, 558 398, 540 448" stroke="#8a7663" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <g stroke="#4a3628" stroke-width="1.8">
+          <line x1="540" y1="91" x2="540" y2="44"/><line x1="540" y1="44" x2="400" y2="44"/>
+          <line x1="347" y1="240" x2="288" y2="240"/><line x1="288" y1="240" x2="288" y2="214"/>
+          <line x1="381" y1="429" x2="288" y2="429"/><line x1="288" y1="429" x2="288" y2="455"/>
+          <line x1="686" y1="259" x2="800" y2="259"/><line x1="800" y1="259" x2="800" y2="233"/>
+          <line x1="651" y1="407" x2="800" y2="407"/><line x1="800" y1="407" x2="800" y2="433"/>
+          <line x1="540" y1="450" x2="540" y2="512"/>
+        </g>
+        <g font-family="IBM Plex Mono, monospace" font-size="20" fill="#241610">
+          <text x="396" y="38" text-anchor="end">1 · Vỏ quả (exocarp)</text>
+          <text x="282" y="208" text-anchor="end">2 · Thịt quả (pulp)</text>
+          <text x="282" y="461" text-anchor="end">3 · Mật (mucilage)</text>
+          <text x="806" y="227">4 · Vỏ giấy (parchment)</text>
+          <text x="806" y="439">5 · Vỏ lụa (silverskin)</text>
+          <text x="540" y="538" text-anchor="middle" font-weight="600">6 · Nhân (endosperm)</text>
+        </g>
+      </svg>
+    </div>
+    <div class="anim">
+      <p class="lead">Đây là một <b>quả mọng</b>, không phải hạt. Lớp mật (mucilage) quyết định <b>cách sơ chế</b> — và cách sơ chế quyết định hương vị.</p>
+      <ul class="why" style="margin-top:24px">
+        <li><b>Washed (ướt)</b> — rửa sạch mật trước khi phơi. Vị sạch, sáng, rõ nguồn gốc.<span>mucilage washed off</span></li>
+        <li><b>Natural (khô)</b> — phơi cả quả, mật lên men vào nhân. Ngọt đậm, trái cây lên men.<span>dried whole</span></li>
+        <li><b>Honey</b> — giữ lại một phần mật. Dung hoà giữa ngọt và sáng.<span>partial mucilage</span></li>
+      </ul>
+      <div class="card" style="margin-top:22px;border-color:var(--accent)">
+        <div class="t">Một quả thường cho <b>2 nhân</b>. Khi chỉ có một (thường tròn) gọi là <b>peaberry</b> — hiếm, được rang riêng.</div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Nguồn: Specialty Coffee Association · World Coffee Research.</div>
+</section>
+
+<!-- ============ 4 · VÀNH ĐAI ============ -->
+<section class="slide" id="s4">
+  <div class="snum"><b>04</b> / 12</div>
+  <div class="head">
+    <div><div class="eyebrow anim">Địa lý</div><h2 class="h2 anim">Vành đai cà phê</h2></div>
+    <p class="lead anim right">Cà phê chỉ trồng được giữa <b>hai chí tuyến</b> — dải đất quanh xích đạo có khí hậu và độ cao phù hợp.</p>
+  </div>
+  <div class="body" style="grid-template-columns:1fr 560px;align-items:center">
+    <div class="anim" id="beltmap"></div>
+    <div class="anim">
+      <div style="font-family:var(--mono);font-size:16px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:20px">Sản lượng 2023/24 · triệu bao 60kg</div>
+      <div class="bar">
+        <div class="brow"><div class="bn">Brazil</div><div class="btrack"><i class="red" style="--w:100%"></i></div><div class="bv">66</div></div>
+        <div class="brow"><div class="bn">Việt Nam</div><div class="btrack"><i style="--w:44%"></i></div><div class="bv">29</div></div>
+        <div class="brow"><div class="bn">Colombia</div><div class="btrack"><i style="--w:18%"></i></div><div class="bv">12</div></div>
+        <div class="brow"><div class="bn">Indonesia</div><div class="btrack"><i style="--w:17%"></i></div><div class="bv">11</div></div>
+        <div class="brow"><div class="bn">Ethiopia</div><div class="btrack"><i style="--w:12%"></i></div><div class="bv">8</div></div>
+        <div class="brow"><div class="bn">Honduras</div><div class="btrack"><i style="--w:8%"></i></div><div class="bv">5,5</div></div>
+        <div class="brow"><div class="bn">Uganda</div><div class="btrack"><i style="--w:8%"></i></div><div class="bv">5</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Nguồn: International Coffee Organization (ICO), niên vụ 2023/24. Diện tích chấm thể hiện sản lượng tương đối.</div>
+</section>
+
+<!-- ============ 5 · RANG ============ -->
+<section class="slide" id="s5">
+  <div class="snum"><b>05</b> / 12</div>
+  <div class="head">
+    <div><div class="eyebrow anim">Hoá học của lửa</div><h2 class="h2 anim">Ba pha rang, hơn 800 hợp chất</h2></div>
+    <p class="lead anim right">Chỉ trong <b>12 phút</b>, hạt xanh từ cỏ ẩm biến thành hạt thơm nâu — nhờ phản ứng Maillard và caramel hoá.</p>
+  </div>
+  <div class="body" style="grid-template-columns:1.15fr 1fr;align-items:center">
+    <div class="anim" id="roastchart"></div>
+    <div class="anim">
+      <div style="font-family:var(--mono);font-size:16px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px">Năm mức rang · mặt cắt hạt</div>
+      <div id="roastlevels" style="display:flex;gap:12px;justify-content:space-between"></div>
+      <div style="margin-top:26px;border-top:1px solid var(--line);padding-top:20px;font-size:20px;line-height:1.55;color:var(--ink-soft)">
+        <b>Bên trong hạt:</b> Maillard (~150°) sinh hương bánh mì; caramel hoá (170–200°) tạo ngọt rồi đắng; axit chlorogenic giảm dần; <b>caffeine gần như không đổi</b>; trigonelline phân huỷ thành pyridine &amp; niacin.
+      </div>
+    </div>
+  </div>
+  <div class="src">Nguồn: Perfect Daily Grind · Royal Society of Chemistry · Coffee Chemistry. Đường cong mang tính minh hoạ.</div>
+</section>
+
+<!-- ============ 6 · BÁNH XE HƯƠNG VỊ ============ -->
+<section class="slide" id="s6">
+  <div class="snum"><b>06</b> / 12</div>
+  <div class="head">
+    <div><div class="eyebrow anim">Ngôn ngữ hương vị</div><h2 class="h2 anim">Bánh xe hương vị</h2></div>
+    <p class="lead anim right">Người nếm chuyên nghiệp không nói "ngon" — họ <b>định vị</b> hương vị trên bánh xe chuẩn của SCA.</p>
+  </div>
+  <div class="body" style="grid-template-columns:760px 1fr;align-items:center">
+    <div class="anim" id="flavorwheel"></div>
+    <div class="anim">
+      <ul class="why">
+        <li><b>Fruity</b> là nhóm rộng nhất — berry, trái cây sấy, citrus, và cả hương lên men như rượu vang.</li>
+        <li><b>Roasted</b> sinh ra khi Maillard và caramel đi xa — bánh mì nướng, thuốc lá, tro.</li>
+        <li><b>Green / Vegetative</b> đến từ hạt rang nhạt chưa phát triển hết — cỏ, cây, rau.</li>
+      </ul>
+      <div class="card" style="margin-top:22px;border-color:var(--accent)">
+        <div class="t">Bánh xe giúp <b>thống nhất ngôn ngữ</b>: hai người ở hai nơi cùng gọi một vị là "blackcurrant" thay vì "chua chua lạ lạ".</div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Mô phỏng theo SCA Coffee Taster's Flavor Wheel (2016) — 9 nhóm hương vị chính.</div>
+</section>
+
+<!-- ============ 7 · TRÍCH LY ============ -->
+<section class="slide" id="s7">
+  <div class="snum"><b>07</b> / 12</div>
+  <div class="head">
+    <div><div class="eyebrow anim">Bản đồ pha chế</div><h2 class="h2 anim">Ô vuông "ly vàng"</h2></div>
+    <p class="lead anim right">Mọi tách nằm ở một điểm giữa <b>độ trích ly</b> và <b>nồng độ (TDS)</b>.</p>
+  </div>
+  <div class="body" style="grid-template-columns:1.2fr 1fr;align-items:center">
+    <div class="anim" id="extractchart"></div>
+    <div class="anim">
+      <ul class="why">
+        <li><b>Trích ly thiếu (&lt;18%)</b> — chua gắt, mặn, loãng. Đã ra axit nhưng chưa ra đường.</li>
+        <li><b>Ô lý tưởng (18–22%)</b> — cân bằng: ngọt, sáng, đủ tầng. Gọi là <b>Golden Cup</b>.</li>
+        <li><b>Trích ly quá (22%+)</b> — đắng khét, se, khô miệng.</li>
+      </ul>
+      <div class="card" style="margin-top:22px">
+        <div class="t">Đo bằng <b>tỷ trọng kế (refractometer)</b>. Nồng độ chuẩn cho cà phê lọc: <b>1,15–1,45% TDS</b>.</div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Nguồn: Specialty Coffee Association · Brewing Control Chart · James Hoffmann.</div>
+</section>
+
+<!-- ============ 8 · NƯỚC ============ -->
+<section class="slide" id="s8">
+  <div class="snum"><b>08</b> / 12</div>
+  <div class="head">
+    <div><div class="eyebrow anim">Thành phần bị bỏ quên</div><h2 class="h2 anim">98% của tách là nước</h2></div>
+    <p class="lead anim right">Nước máy cứng quá hay mềm quá đều cho <b>kết quả tệ</b>. Nhiều quán pha nước lại theo chuẩn SCA.</p>
+  </div>
+  <div class="body" style="grid-template-columns:1.1fr 1fr;align-items:center">
+    <div class="anim bar">
+      <div class="wrow"><div class="nm">TDS tổng<span>mg/L</span></div><div class="track"><i style="--w:100%"></i></div><div class="val">150</div></div>
+      <div class="wrow"><div class="nm">Độ cứng canxi<span>ppm</span></div><div class="track"><i style="--w:45%"></i></div><div class="val">68</div></div>
+      <div class="wrow"><div class="nm">Độ kiềm tổng<span>ppm</span></div><div class="track"><i style="--w:27%"></i></div><div class="val">40</div></div>
+      <div class="wrow"><div class="nm">Natri<span>ppm</span></div><div class="track"><i style="--w:7%"></i></div><div class="val">10</div></div>
+      <div class="wrow"><div class="nm">pH<span>trung tính</span></div><div class="track"><i style="--w:70%"></i></div><div class="val">7,0</div></div>
+      <div class="wrow"><div class="nm">Clo<span>ppm</span></div><div class="track"><i style="--w:0%"></i></div><div class="val">0</div></div>
+    </div>
+    <div class="anim">
+      <ul class="why">
+        <li><b>Canxi (17–85 ppm)</b> — giúp chiết hương, nhưng nhiều quá làm hôi máy.</li>
+        <li><b>Độ kiềm (40 ppm)</b> — trung hoà axit; kiềm cao → tách <b>nhạt, phẳng</b>.</li>
+        <li><b>Natri thấp (~10 ppm)</b> — natri cao gây vị mặn, át hương.</li>
+        <li><b>Clo = 0</b> — còn clo là tách có mùi "bể cá".</li>
+        <li><b>pH 6,5–7,5</b> — lệch khoảng này đều phá hương.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="src">Nguồn: SCA Water Quality Handbook.</div>
+</section>
+
+<!-- ============ 9 · CAFFEINE ============ -->
+<section class="slide" id="s9">
+  <div class="snum"><b>09</b> / 12</div>
+  <div class="head">
+    <div><div class="eyebrow anim">Dược động học</div><h2 class="h2 anim">Caffeine hoạt động thế nào</h2></div>
+    <p class="lead anim right">Caffeine không <b>cho</b> năng lượng — nó <b>chặn cảm giác mệt</b> bằng cách chiếm thụ thể adenosine.</p>
+  </div>
+  <div class="body" style="grid-template-columns:1.25fr 1fr;align-items:center">
+    <div class="anim" id="cafchart"></div>
+    <div class="anim">
+      <div class="cards" style="grid-template-columns:1fr 1fr">
+        <div class="card"><div class="n">45′</div><div class="t">Đạt nồng độ đỉnh sau khi uống</div></div>
+        <div class="card"><div class="n">5 h</div><div class="t">Thời gian bán rã trong cơ thể</div></div>
+        <div class="card"><div class="n">10 h</div><div class="t">Vẫn còn 1/4 liều — lý do khó ngủ</div></div>
+        <div class="card"><div class="n">400</div><div class="t">mg/ngày — ngưỡng an toàn (FDA)</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Nguồn: FDA · Mayo Clinic · Sleep Foundation (thụ thể adenosine A1/A2A).</div>
+</section>
+
+<!-- ============ 10 · CÁCH PHA ============ -->
+<section class="slide" id="s10">
+  <div class="snum"><b>10</b> / 12</div>
+  <div class="head">
+    <div><div class="eyebrow anim">Thực hành</div><h2 class="h2 anim">Cùng một hạt, năm cách pha</h2></div>
+  </div>
+  <div class="body" style="display:block">
+    <table class="brew anim">
+      <thead><tr><th style="width:21%">Phương pháp</th><th style="width:15%">Cỡ xay</th><th style="width:15%">Nhiệt độ</th><th style="width:15%">Thời gian</th><th style="width:14%">Áp suất</th><th style="width:20%">Kết quả trong tách</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Espresso<span>máy áp suất</span></td><td>Rất mịn</td><td>~92°C</td><td>25–30 giây</td><td><span class="tag hi">~9 bar</span></td><td>Đậm, đặc, có lớp crema vàng nâu</td></tr>
+        <tr><td class="name">Pour-over (V60)<span>rót tay</span></td><td>Mịn vừa</td><td>92–96°C</td><td>2,5–3 phút</td><td><span class="tag">khí quyển</span></td><td>Trong, sáng, nhiều tầng hương</td></tr>
+        <tr><td class="name">French press<span>ngâm ủ</span></td><td>Thô</td><td>92–96°C</td><td>4 phút</td><td><span class="tag">khí quyển</span></td><td>Đầy đặn, nhiều dầu, hơi cặn</td></tr>
+        <tr><td class="name">Moka pot<span>bếp ga</span></td><td>Mịn</td><td>~92°C</td><td>3–5 phút</td><td><span class="tag hi">~1,5 bar</span></td><td>Mạnh gần espresso, không crema</td></tr>
+        <tr><td class="name">Cold brew<span>ngâm lạnh</span></td><td>Thô</td><td>~4°C</td><td>12–24 giờ</td><td><span class="tag">khí quyển</span></td><td>Êm, ít axit, hậu ngọt dịu</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="src">Nguồn: Specialty Coffee Association · James Hoffmann, "The World Atlas of Coffee".</div>
+</section>
+
+<!-- ============ 11 · LỊCH SỬ ============ -->
+<section class="slide" id="s11">
+  <div class="snum"><b>11</b> / 12</div>
+  <div class="head">
+    <div><div class="eyebrow anim">Lịch sử</div><h2 class="h2 anim">1.100 năm lan ra toàn cầu</h2></div>
+    <p class="lead anim right">Từ truyền thuyết nơi đồi cỏ Ethiopia tới làn sóng đặc sản — qua <b>bảy cột mốc</b>.</p>
+  </div>
+  <div class="body" style="display:flex;align-items:center">
+    <div class="anim" id="timeline" style="width:100%"></div>
+  </div>
+  <div class="src">Nguồn: British Coffee Association · National Coffee Association · ghi chép Ottoman.</div>
+</section>
+
+<!-- ============ 12 · KẾT ============ -->
+<section class="slide" id="s12">
+  <div class="snum" style="color:#8f7d68"><b style="color:#faf5ea">12</b> / 12</div>
+  <div class="body">
+    <div class="close">
+      <div class="eyebrow anim" style="color:#c98a48">Kết</div>
+      <div class="q anim" style="margin-top:26px">Một tách cà phê là <em>chuỗi quyết định</em> — giống, đất, cách sơ chế, đường cong rang, và cuối cùng là nước.</div>
+      <p class="note anim">Hiểu từng mắt xích, ta không còn pha cà phê bằng may mắn. Ta chọn được vị mình muốn, và giải thích được vì sao nó ngon.</p>
+    </div>
+    <div class="anim srclist">
+      <div class="h">Nguồn</div>
+      <ul>
+        <li><b>Scott Rao</b> — The Coffee Roaster's Companion</li>
+        <li><b>James Hoffmann</b> — The World Atlas of Coffee</li>
+        <li><b>SCA</b> — Flavor Wheel · Water Standard · Brewing Chart</li>
+        <li><b>Royal Society of Chemistry</b> — Science of Coffee</li>
+        <li><b>FDA · Mayo Clinic</b> — Caffeine</li>
+        <li><b>ICO</b> — Coffee production statistics 2023/24</li>
+        <li><b>World Coffee Research</b> — Coffee anatomy</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div id="nav"></div>
+<div id="hint">← → · space · chạm</div>
+
+<script>
+/* ============================================================ stage + nav */
+const stage=document.getElementById('stage');
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform=`translate(-50%,-50%) scale(${s})`}
+addEventListener('resize',fit);fit();
+const slides=[...document.querySelectorAll('.slide')];let cur=0;
+const nav=document.getElementById('nav');
+slides.forEach((_,i)=>{const b=document.createElement('button');b.title='Slide '+(i+1);b.onclick=()=>go(i);nav.appendChild(b)});
+const dots=[...nav.children];
+function go(i){cur=(i+slides.length)%slides.length;slides.forEach((s,k)=>s.classList.toggle('active',k===cur));dots.forEach((d,k)=>d.classList.toggle('on',k===cur))}
+go(0);
+addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){e.preventDefault();go(cur+1)}
+  if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(cur-1)}
+});
+let sx=null;addEventListener('touchstart',e=>sx=e.touches[0].clientX);
+addEventListener('touchend',e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)go(cur+(dx<0?1:-1));sx=null});
+
+/* ============================================================ svg helpers */
+const NS='http://www.w3.org/2000/svg';
+function S(tag,attrs={}){const el=document.createElementNS(NS,tag);for(const k in attrs)el.setAttribute(k,attrs[k]);return el}
+function T(txt,attrs={}){const el=S('text',attrs);el.textContent=txt;return el}
+function svg(vb){const s=S('svg',{viewBox:vb,class:'chart'});s.setAttribute('preserveAspectRatio','xMidYMid meet');return s}
+const MONO='IBM Plex Mono, monospace';
+function lab(el,txt,x,y,o={}){el.appendChild(T(txt,Object.assign({x,y,'font-family':MONO,'font-size':17,fill:'#8a7663'},o)))}
+
+/* ============================================================ 1 · RADAR */
+(function(){
+  const host=document.getElementById('radar');if(!host)return;
+  const W=660,H=640,cx=330,cy=300,R=182;
+  const names=['Caffeine','Đường','Dầu','Axit chlor.','Độ cao','Kháng bệnh'];
+  const A=[30,90,85,40,95,25], B=[95,40,45,90,25,90];
+  const s=svg(`0 0 ${W} ${H}`),pt=(i,v)=>{const a=(-90+i*60)*Math.PI/180;return[cx+Math.cos(a)*R*v/100,cy+Math.sin(a)*R*v/100]};
+  [25,50,75,100].forEach(v=>s.appendChild(S('polygon',{points:names.map((_,i)=>pt(i,v).join(',')).join(' '),fill:'none',stroke:'#d6c4a8'})));
+  names.forEach((_,i)=>{const[x,y]=pt(i,100);s.appendChild(S('line',{x1:cx,y1:cy,x2:x,y2:y,stroke:'#d6c4a8'}))});
+  s.appendChild(S('polygon',{points:B.map((v,i)=>pt(i,v).join(',')).join(' '),fill:'rgba(36,22,16,.08)',stroke:'#241610','stroke-width':3,'stroke-linejoin':'round'}));
+  s.appendChild(S('polygon',{points:A.map((v,i)=>pt(i,v).join(',')).join(' '),fill:'rgba(168,80,31,.18)',stroke:'#a8501f','stroke-width':3,'stroke-linejoin':'round'}));
+  A.forEach((v,i)=>{const[x,y]=pt(i,v);s.appendChild(S('circle',{cx:x,cy:y,r:4.5,fill:'#a8501f'}))});
+  B.forEach((v,i)=>{const[x,y]=pt(i,v);s.appendChild(S('circle',{cx:x,cy:y,r:4.5,fill:'#241610'}))});
+  names.forEach((k,i)=>{const[x,y]=pt(i,120);let an='middle';if(x>cx+10)an='start';if(x<cx-10)an='end';s.appendChild(T(k,{x,y:y+6,'text-anchor':an,'font-family':MONO,'font-size':18,fill:'#8a7663'}))});
+  s.appendChild(S('rect',{x:cx-130,y:H-34,width:16,height:16,fill:'rgba(168,80,31,.5)',stroke:'#a8501f'}));
+  s.appendChild(T('Arabica',{x:cx-108,y:H-20,'font-family':MONO,'font-size':17,fill:'#4a3628'}));
+  s.appendChild(S('rect',{x:cx+30,y:H-34,width:16,height:16,fill:'rgba(36,22,16,.3)',stroke:'#241610'}));
+  s.appendChild(T('Robusta',{x:cx+52,y:H-20,'font-family':MONO,'font-size':17,fill:'#4a3628'}));
+  host.appendChild(s);
+})();
+
+/* ============================================================ 2 · BELT MAP */
+(function(){
+  const host=document.getElementById('beltmap');if(!host)return;
+  const W=1080,H=620,pad=34;
+  const s=svg(`0 0 ${W} ${H}`);
+  const lon0=-120,lon1=150,lat0=40,lat1=-35;
+  const X=l=>(l-lon0)/(lon1-lon0)*(W-2*pad)+pad, Y=l=>(lat0-l)/(lat0-lat1)*(H-2*pad)+pad;
+  s.appendChild(S('rect',{x:pad,y:pad,width:W-2*pad,height:H-2*pad,fill:'#faf5ea',stroke:'#d6c4a8'}));
+  s.appendChild(S('rect',{x:pad,y:Y(23.5),width:W-2*pad,height:Y(-23.5)-Y(23.5),fill:'rgba(168,80,31,.09)'}));
+  s.appendChild(S('line',{x1:pad,y1:Y(23.5),x2:W-pad,y2:Y(23.5),stroke:'#c98a48','stroke-dasharray':'5 6'}));
+  s.appendChild(S('line',{x1:pad,y1:Y(0),x2:W-pad,y2:Y(0),stroke:'#c98a48'}));
+  s.appendChild(S('line',{x1:pad,y1:Y(-23.5),x2:W-pad,y2:Y(-23.5),stroke:'#c98a48','stroke-dasharray':'5 6'}));
+  s.appendChild(T('Chí tuyến Bắc 23,5°N',{x:W-pad-8,y:Y(23.5)-8,'text-anchor':'end','font-family':MONO,'font-size':14,fill:'#a8501f'}));
+  s.appendChild(T('Xích đạo',{x:pad+10,y:Y(0)-8,'font-family':MONO,'font-size':14,fill:'#a8501f'}));
+  s.appendChild(T('Chí tuyến Nam 23,5°S',{x:W-pad-8,y:Y(-23.5)+20,'text-anchor':'end','font-family':MONO,'font-size':14,fill:'#a8501f'}));
+  [{n:'Brazil',lon:-50,lat:-10,v:66,dx:0,dy:34},{n:'Việt Nam',lon:108,lat:14,v:29,dx:0,dy:-30},
+   {n:'Colombia',lon:-74,lat:4,v:12,dx:-16,dy:-16},{n:'Indonesia',lon:118,lat:-2,v:11,dx:20,dy:2},
+   {n:'Ethiopia',lon:39,lat:7,v:8,dx:-8,dy:-22},{n:'Honduras',lon:-87,lat:15,v:5.5,dx:-16,dy:2}].forEach(p=>{
+    const r=Math.sqrt(p.v)*3.0,x=X(p.lon),y=Y(p.lat);
+    s.appendChild(S('circle',{cx:x,cy:y,r,fill:'rgba(158,43,37,.85)',stroke:'#7a1f1a','stroke-width':1.5}));
+    s.appendChild(S('circle',{cx:x,cy:y,r:2.5,fill:'#faf5ea'}));
+    s.appendChild(T(p.n,{x:x+p.dx,y:y+p.dy,'text-anchor':'middle','font-family':MONO,'font-size':17,fill:'#241610','font-weight':600}));
+  });
+  host.appendChild(s);
+})();
+
+/* ============================================================ 3 · ROAST */
+(function(){
+  const host=document.getElementById('roastchart');if(!host)return;
+  const W=1040,H=660,L=92,B=H-62,PT=56,R=W-46;
+  const s=svg(`0 0 ${W} ${H}`),tx=t=>L+t/14*(R-L),ty=c=>B-(c-80)/(240-80)*(B-PT);
+  [['0','4','#e7dcc6'],['4','9','#f1e9d8'],['9','12','rgba(168,80,31,.12)']].forEach(([a,b,c])=>s.appendChild(S('rect',{x:tx(+a),y:PT,width:tx(+b)-tx(+a),height:B-PT,fill:c})));
+  [80,120,160,200,240].forEach(v=>{s.appendChild(S('line',{x1:L,y1:ty(v),x2:R,y2:ty(v),stroke:'#d6c4a8'}));lab(s,v+'°',L-10,ty(v)+6,{'text-anchor':'end','font-size':16})});
+  [0,4,8,12].forEach(v=>lab(s,String(v),tx(v),B+26,{'text-anchor':'middle','font-size':16}));
+  lab(s,'phút',R,B+26,{'text-anchor':'end','font-size':16});
+  lab(s,'LÀM KHÔ',tx(2),PT-16,{'text-anchor':'middle','font-size':15});lab(s,'MAILLARD',tx(6.5),PT-16,{'text-anchor':'middle','font-size':15});
+  lab(s,'PHÁT TRIỂN',tx(10.5),PT-16,{'text-anchor':'middle','font-size':15,fill:'#a8501f'});
+  const pts=[[0,200],[1.5,90],[3,120],[5,150],[7,175],[9,196],[10,205],[11,212],[12,218]].map(([t,c])=>tx(t)+','+ty(c)).join(' ');
+  const path=S('polyline',{points:pts,fill:'none',stroke:'#241610','stroke-width':5,'stroke-linejoin':'round','stroke-linecap':'round'});
+  path.style.strokeDasharray='1500';path.style.strokeDashoffset='1500';path.style.setProperty('--len','1500');path.style.animation='draw 1.9s ease .3s forwards';
+  s.appendChild(path);
+  const ev=(t,c,col,txt,ax,ay)=>{const x=tx(t),y=ty(c);s.appendChild(S('circle',{cx:x,cy:y,r:7,fill:'#faf5ea',stroke:col,'stroke-width':3}));s.appendChild(T(txt,{x:x+ax,y:y+ay,'font-family':MONO,'font-size':15,fill:col}))};
+  ev(0,200,'#241610','nạp hạt 200°',12,-10);ev(1.5,90,'#241610','đảo chiều ~90°',14,20);
+  ev(9,196,'#a8501f','First crack 196°',-8,-14);ev(12,218,'#a8501f','Second crack 225°',-10,-14);
+  host.appendChild(s);
+  const lv=document.getElementById('roastlevels');
+  [['Cinnamon','#cbb488','#b9a06a','Chua sáng'],['City','#a97b47','#8a5f33','Cân bằng'],['Full City','#7c4f2a','#5e3a1e','Sô-cô-la'],['Vienna','#4a2c19','#341d10','Khói'],['French','#2a1810','#180d07','Đắng gắt']].forEach(([nm,c1,c2,d])=>{
+    const cell=document.createElement('div');cell.style.cssText='text-align:center;flex:1';
+    cell.innerHTML=`<svg viewBox="0 0 72 96" width="100%" height="96" preserveAspectRatio="xMidYMid meet"><ellipse cx="36" cy="48" rx="27" ry="36" fill="${c1}"/><path d="M36 12 C29 34, 42 42, 35 57 C28 72, 38 76, 36 82" stroke="${c2}" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>
+      <div style="font-size:14px;font-weight:600;color:#4a3628;margin-top:4px">${nm}</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8a7663;margin-top:2px">${d}</div>`;
+    lv.appendChild(cell);
+  });
+})();
+
+/* ============================================================ 4 · FLAVOR WHEEL */
+(function(){
+  const host=document.getElementById('flavorwheel');if(!host)return;
+  const W=900,H=740,cx=450,cy=370;
+  const cats=[['Fruity','berry · citrus · mứt','#7a3346'],['Floral','nhài · hồng','#a8501f'],['Sweet','caramel · mật ong','#c98a48'],
+    ['Nutty/Cocoa','hạnh nhân · cacao','#6b4a2b'],['Spices','đinh hương · tiêu','#9e5a2b'],['Roasted','bánh nướng · khói','#3a2418'],
+    ['Green/Veg','cỏ · thảo mộc','#4d6b3f'],['Sour/Ferm','vang · sữa chua','#7a6b2f'],['Other','hoá học · giấy','#8a7663']];
+  const s=svg(`0 0 ${W} ${H}`),r0=132,r1=262,step=360/cats.length;
+  const pol=(rr,a)=>{const rad=(a-90)*Math.PI/180;return[cx+Math.cos(rad)*rr,cy+Math.sin(rad)*rr]};
+  cats.forEach((c,i)=>{
+    const a0=i*step,a1=a0+step,mid=a0+step/2,P0=pol(r0,a0),P1=pol(r1,a0),P2=pol(r1,a1),P3=pol(r0,a1);
+    s.appendChild(S('path',{d:`M${P0} A${r0} ${r0} 0 0 1 ${P3} L${P2} A${r1} ${r1} 0 0 0 ${P1} Z`,fill:c[2],opacity:.16,stroke:c[2],'stroke-width':1.6}));
+    const[lx,ly]=pol(r1+40,mid);let an='middle';if(lx>cx+10)an='start';if(lx<cx-10)an='end';
+    s.appendChild(T(c[0],{x:lx,y:ly,'text-anchor':an,'font-family':'Fraunces, serif','font-size':22,fill:c[2],'font-weight':600}));
+    const[dx,dy]=pol((r0+r1)/2,mid);const ws=c[1].split(' · ');
+    ws.forEach((w,k)=>s.appendChild(T(w,{x:dx,y:dy+k*19-(ws.length-1)*9.5,'text-anchor':'middle','font-family':MONO,'font-size':12,fill:'#4a3628'})));
+  });
+  s.appendChild(S('circle',{cx,cy,r:118,fill:'#faf5ea',stroke:'#d6c4a8'}));
+  s.appendChild(T('HƯƠNG VỊ',{x:cx,y:cy-6,'text-anchor':'middle','font-family':MONO,'font-size':15,fill:'#8a7663','letter-spacing':2}));
+  s.appendChild(T('9 nhóm',{x:cx,y:cy+24,'text-anchor':'middle','font-family':'Fraunces, serif','font-size':30,fill:'#241610'}));
+  host.appendChild(s);
+})();
+
+/* ============================================================ 5 · EXTRACTION */
+(function(){
+  const host=document.getElementById('extractchart');if(!host)return;
+  const W=1040,H=620,L=96,B=H-64,PT=56,R=W-46;
+  const s=svg(`0 0 ${W} ${H}`),X=x=>L+(x-14)/(26-14)*(R-L),Y=y=>B-(y-0.9)/(1.7-0.9)*(B-PT);
+  s.appendChild(S('rect',{x:X(14),y:PT,width:X(18)-X(14),height:B-PT,fill:'rgba(158,43,37,.07)'}));
+  s.appendChild(S('rect',{x:X(22),y:PT,width:X(26)-X(22),height:B-PT,fill:'rgba(58,36,24,.10)'}));
+  s.appendChild(S('rect',{x:X(18),y:Y(1.45),width:X(22)-X(18),height:Y(1.15)-Y(1.45),fill:'rgba(168,80,31,.18)',stroke:'#a8501f','stroke-width':2,'stroke-dasharray':'7 5'}));
+  s.appendChild(T('Ô LÝ TƯỞNG',{x:X(20),y:Y(1.45)-12,'text-anchor':'middle','font-family':MONO,'font-size':16,fill:'#a8501f','font-weight':600}));
+  [14,16,18,20,22,24,26].forEach(v=>{s.appendChild(S('line',{x1:X(v),y1:PT,x2:X(v),y2:B,stroke:'#e6d9c1'}));lab(s,v+'%',X(v),B+26,{'text-anchor':'middle','font-size':16})});
+  [1.0,1.15,1.3,1.45,1.6].forEach(v=>{s.appendChild(S('line',{x1:L,y1:Y(v),x2:R,y2:Y(v),stroke:'#e6d9c1'}));lab(s,v.toFixed(2),L-10,Y(v)+5,{'text-anchor':'end','font-size':16})});
+  s.appendChild(S('line',{x1:L,y1:B,x2:R,y2:B,stroke:'#241610','stroke-width':2.5}));
+  s.appendChild(S('line',{x1:L,y1:PT,x2:L,y2:B,stroke:'#241610','stroke-width':2.5}));
+  lab(s,'Độ trích ly →',R,B+50,{'text-anchor':'end','font-size':16});
+  s.appendChild(T('Nồng độ TDS →',{x:L-8,y:PT-18,'text-anchor':'end','font-family':MONO,'font-size':16,fill:'#8a7663'}));
+  s.appendChild(T('CHUA GẮT',{x:X(16),y:B-18,'text-anchor':'middle','font-family':MONO,'font-size':16,fill:'#9e2b25','font-weight':600}));
+  s.appendChild(T('ĐẮNG KHÉT',{x:X(24),y:B-18,'text-anchor':'middle','font-family':MONO,'font-size':16,fill:'#3a2418','font-weight':600}));
+  [[17.2,1.18,'Quá loãng'],[19.0,1.30,'Chuẩn V60'],[20.5,1.42,'Đậm tốt'],[23.1,1.22,'Rút bị đắng'],[16.1,1.36,'Chưa chín']].forEach(b=>{
+    const x=X(b[0]),y=Y(b[1]);s.appendChild(S('circle',{cx:x,cy:y,r:8,fill:'#241610'}));s.appendChild(T(b[2],{x:x+13,y:y+5,'font-family':MONO,'font-size':14,fill:'#4a3628'}));
+  });
+  host.appendChild(s);
+})();
+
+/* ============================================================ 6 · CAFFEINE */
+(function(){
+  const host=document.getElementById('cafchart');if(!host)return;
+  const W=1040,H=600,L=96,B=H-60,PT=56,R=W-46;
+  const s=svg(`0 0 ${W} ${H}`),X=t=>L+t/24*(R-L),Y=c=>B-c/100*(B-PT);
+  s.appendChild(S('line',{x1:L,y1:B,x2:R,y2:B,stroke:'#241610','stroke-width':2.5}));
+  s.appendChild(S('line',{x1:L,y1:PT,x2:L,y2:B,stroke:'#241610','stroke-width':2.5}));
+  [0,4,8,12,16,20,24].forEach(v=>lab(s,v+'h',X(v),B+26,{'text-anchor':'middle','font-size':16}));
+  s.appendChild(T('Nồng độ trong máu →',{x:L-8,y:PT-18,'text-anchor':'end','font-family':MONO,'font-size':16,fill:'#8a7663'}));
+  let d='M',first=true;
+  for(let t=0;t<=24;t+=0.25){const c=t<0.75?(t/0.75)*100:100*Math.pow(0.5,(t-0.75)/5);d+=(first?'':' L')+X(t).toFixed(1)+' '+Y(c).toFixed(1);first=false}
+  const path=S('path',{d,fill:'none',stroke:'#a8501f','stroke-width':5,'stroke-linejoin':'round'});
+  path.style.strokeDasharray='2000';path.style.strokeDashoffset='2000';path.style.setProperty('--len','2000');path.style.animation='draw 1.9s ease .3s forwards';
+  s.appendChild(path);
+  s.appendChild(S('circle',{cx:X(0.75),cy:Y(100),r:8,fill:'#a8501f'}));
+  s.appendChild(T('Đỉnh ~45 phút',{x:X(0.75)+14,y:Y(100)+6,'font-family':MONO,'font-size':15,fill:'#a8501f'}));
+  [[5.75,'còn 50% (giờ thứ 5)'],[10.75,'còn 25% (giờ thứ 10)']].forEach(([t,txt])=>{
+    s.appendChild(S('line',{x1:X(t),y1:PT,x2:X(t),y2:B,stroke:'#c98a48','stroke-width':1.5,'stroke-dasharray':'6 6'}));
+    s.appendChild(T(txt,{x:X(t)+10,y:PT+28,'font-family':MONO,'font-size':15,fill:'#8a7663'}));
+  });
+  host.appendChild(s);
+})();
+
+/* ============================================================ 7 · TIMELINE */
+(function(){
+  const host=document.getElementById('timeline');if(!host)return;
+  const W=1728,H=470,s=svg(`0 0 ${W} ${H}`);
+  s.appendChild(S('line',{x1:120,y1:200,x2:1608,y2:200,stroke:'#241610','stroke-width':2.5}));
+  const stops=[[130,'~850','Kaldi & đàn dê','Truyền thuyết · Ethiopia',0],[376,'~1450','Tu viện Sufi','Cảng Mocha · Yemen',0],
+    [622,'1554','Quán đầu tiên','Istanbul · Ottoman',0],[868,'1650','"Penny university"','Quán cà phê · Oxford',0],
+    [1114,'1901','Máy espresso','Luigi Bezzera · Milano',0],[1360,'1938','Cà phê hoà tan','Nescafé · Thụy Sĩ',0],
+    [1606,'2000s','Làn sóng thứ ba','Cà phê đặc sản',1]];
+  stops.forEach(([x,yr,t1,t2,acc])=>{
+    const col=acc?'#a8501f':'#241610';
+    s.appendChild(S('line',{x1:x,y1:174,x2:x,y2:226,stroke:col,'stroke-width':acc?3:2.5}));
+    s.appendChild(S('circle',{cx:x,cy:200,r:acc?11:7,fill:'#a8501f'}));
+    s.appendChild(T(yr,{x,y:156,'text-anchor':'middle','font-family':'Fraunces, serif','font-size':38,fill:col}));
+    s.appendChild(T(t1,{x,y:276,'text-anchor':'middle','font-family':'Be Vietnam Pro, sans-serif','font-size':21,'font-weight':600,fill:col}));
+    s.appendChild(T(t2,{x,y:304,'text-anchor':'middle','font-family':'Be Vietnam Pro, sans-serif','font-size':17,fill:'#4a3628'}));
+  });
+  s.appendChild(S('rect',{x:120,y:366,width:1488,height:74,rx:6,fill:'#e7dcc6'}));
+  s.appendChild(T('900 năm đầu cà phê gắn với tôn giáo & y học. 300 năm sau, nó thành thức uống của quán xá, công xưởng và văn phòng.',{x:152,y:414,'font-family':MONO,'font-size':18,fill:'#4a3628'}));
+  host.appendChild(s);
+})();
+</script>
+</body>
+</html>
