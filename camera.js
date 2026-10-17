@@ -17,7 +17,7 @@ const CAMERAS = {
       ['Video', '6.2K 30p'],
       ['Pin', 'NP-W126S · sạc kèm']
     ],
-    images: ['assets/cam/x100vi-1.jpg', 'assets/cam/x100vi-2.jpg', 'assets/cam/x100vi-3.jpg', 'assets/cam/x100vi-4.jpg'],
+    images: ['assets/cam/x100vi-1.webp', 'assets/cam/x100vi-2.webp', 'assets/cam/x100vi-3.webp', 'assets/cam/x100vi-4.webp'],
     booked: [4, 5, 6, 13, 14]
   },
   xt5: {
@@ -33,7 +33,7 @@ const CAMERAS = {
       ['Màn hình', 'Lật 3 hướng'],
       ['Pin', 'NP-W235']
     ],
-    images: ['assets/cam/xt5-1.jpg', 'assets/cam/xt5-2.jpg', 'assets/cam/xt5-3.jpg', 'assets/cam/xt5-4.jpg', 'assets/cam/xt5-5.jpg'],
+    images: ['assets/cam/xt5-1.webp', 'assets/cam/xt5-2.webp', 'assets/cam/xt5-3.webp', 'assets/cam/xt5-4.webp', 'assets/cam/xt5-5.webp'],
     booked: [2, 3, 10, 11, 20]
   },
   r50: {
@@ -49,7 +49,7 @@ const CAMERAS = {
       ['Video', '4K 30p'],
       ['Pin', 'LP-E17']
     ],
-    images: ['assets/cam/r50-1.jpg', 'assets/cam/r50-2.jpg', 'assets/cam/r50-3.jpg', 'assets/cam/r50-4.jpg', 'assets/cam/r50-5.jpg'],
+    images: ['assets/cam/r50-1.webp', 'assets/cam/r50-2.webp', 'assets/cam/r50-3.webp', 'assets/cam/r50-4.webp', 'assets/cam/r50-5.webp'],
     booked: [6, 7, 8, 9, 17]
   },
   r6m2: {
@@ -65,7 +65,7 @@ const CAMERAS = {
       ['Chụp liên tục', '40 fps (electronic)'],
       ['Video', '4K 60p']
     ],
-    images: ['assets/cam/r6m2-1.jpg', 'assets/cam/r6m2-2.jpg', 'assets/cam/r6m2-3.jpg', 'assets/cam/r6m2-4.jpg', 'assets/cam/r6m2-5.jpg'],
+    images: ['assets/cam/r6m2-1.webp', 'assets/cam/r6m2-2.webp', 'assets/cam/r6m2-3.webp', 'assets/cam/r6m2-4.webp', 'assets/cam/r6m2-5.webp'],
     booked: [5, 6, 12, 18, 19]
   }
 };
